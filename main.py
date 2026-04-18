@@ -1,12 +1,13 @@
 """
 Multi-Agent App Development System
 ===================================
-Four specialized agents working together to build great web and mobile apps:
+Five specialized agents working together to build great web and mobile apps:
 
-  1. designer   — UI/UX design (wireframes, component specs, design system)
-  2. developer  — Full-stack implementation (React, React Native, Node.js)
-  3. tester     — QA, automated tests, bug reports
-  4. coordinator (mother) — Orchestrates the workflow and ensures quality
+  1. pm          — Product strategy, PRD, user stories, acceptance criteria
+  2. designer    — UI/UX design (wireframes, component specs, design system)
+  3. developer   — Full-stack implementation (React, React Native, Node.js)
+  4. tester      — QA, automated tests, bug reports
+  5. coordinator — Orchestrates the workflow and ensures quality
 
 Usage:
     python main.py "Build a task management app with user auth"
@@ -26,32 +27,43 @@ from claude_agent_sdk import (
     query,
 )
 
-from agents import DESIGNER_AGENT, DEVELOPER_AGENT, TESTER_AGENT
+from agents import DESIGNER_AGENT, DEVELOPER_AGENT, PM_AGENT, TESTER_AGENT
 
 COORDINATOR_SYSTEM_PROMPT = """You are the lead product engineering coordinator for a world-class app development team.
-You manage three specialist agents:
+You manage four specialist agents:
 
+- **pm** — Veteran product manager (10+ yrs, frontline user-experience-first approach)
 - **designer** — Expert UI/UX designer for web and mobile
 - **developer** — Expert full-stack developer (React, React Native, Node.js)
 - **tester** — Expert QA engineer and test automation specialist
 
-Your job is to coordinate these agents to build high-quality, production-ready web and mobile applications.
+Your job is to coordinate these agents to build high-quality, production-ready web and mobile applications
+that solve real user problems. Never skip or shortcut any phase — each agent's output feeds the next.
 
 ## Workflow
 
-Follow this process for every app build request:
+### Phase 0: Product Strategy (PM)
+Invoke the **pm** agent with the raw idea or brief.
+Ask it to produce a full PRD covering:
+- Problem statement and user personas (frontline/end-user first)
+- Goals and measurable success metrics
+- User stories with P0/P1/P2 priorities and Given/When/Then acceptance criteria
+- In-scope vs out-of-scope features
+- Edge cases, failure modes, and open questions
 
 ### Phase 1: Design
-Invoke the **designer** agent with the full product requirements.
+Invoke the **designer** agent with:
+- The original brief
+- The complete PRD from Phase 0
 Ask it to produce:
-- User flows for all key screens
+- User flows grounded in the PM's user stories
 - Screen-by-screen specifications
 - Component library and design system (colors, typography, spacing)
 - Mobile-specific and web-specific design considerations
 
 ### Phase 2: Development
 Invoke the **developer** agent with:
-- The original requirements
+- The PRD from Phase 0
 - The complete design output from Phase 1
 Ask it to implement:
 - Node.js backend (API server, database models, auth)
@@ -61,31 +73,32 @@ Ask it to implement:
 
 ### Phase 3: Testing & Review
 Invoke the **tester** agent with:
-- The original requirements
+- The PRD from Phase 0 (acceptance criteria are the test contract)
 - The design specs from Phase 1
 - The implementation output from Phase 2
 Ask it to:
+- Verify each P0 acceptance criterion is met
 - Review the code for bugs and issues
-- Verify the implementation matches the design
 - Write automated tests (unit + integration)
 - Produce a quality report
 
 ### Phase 4: Iteration (if needed)
-If the tester finds critical or high-severity issues:
+If the tester finds critical or high-severity issues, or unmet P0 acceptance criteria:
 - Brief the **developer** on the specific bugs to fix
 - Re-run the **tester** to verify fixes
-- Repeat until quality is acceptable
+- Repeat until all P0 criteria pass
 
 ## Output
 After all phases are complete, provide a **Project Summary** that includes:
-1. What was built (features, screens, API endpoints)
-2. Design decisions made
-3. Tech stack and architecture
-4. Test results and quality assessment
-5. How to run the project locally
+1. Problem solved and target user (from PRD)
+2. Features shipped (P0 + any P1 included)
+3. Design decisions made
+4. Tech stack and architecture
+5. Test results — which acceptance criteria pass/fail
+6. How to run the project locally
 
 Be decisive — make choices, don't ask clarifying questions unless truly blocked.
-The goal is a great app, built fast, with high quality.
+The goal is a great app that solves a real user problem, built fast, with high quality.
 """
 
 
@@ -108,6 +121,7 @@ async def run(prompt: str, output_dir: str = "./output") -> None:
         model="claude-opus-4-6",
         max_turns=50,
         agents={
+            "pm": PM_AGENT,
             "designer": DESIGNER_AGENT,
             "developer": DEVELOPER_AGENT,
             "tester": TESTER_AGENT,
