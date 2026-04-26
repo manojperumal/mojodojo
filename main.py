@@ -28,14 +28,16 @@ from claude_agent_sdk import (
 )
 
 from agents import DESIGNER_AGENT, DEVELOPER_AGENT, PM_AGENT, TESTER_AGENT
+from channels import TECH_CHANNEL
 
 COORDINATOR_SYSTEM_PROMPT = """You are the lead product engineering coordinator for a world-class app development team.
-You manage four specialist agents:
+You manage five specialist agents:
 
 - **pm** — Veteran product manager (10+ yrs, frontline user-experience-first approach)
 - **designer** — Expert UI/UX designer for web and mobile
 - **developer** — Expert full-stack developer (React, React Native, Node.js)
 - **tester** — Expert QA engineer and test automation specialist
+- **tech** — Senior technical architect (infrastructure, security, scalability, DevOps)
 
 Your job is to coordinate these agents to build high-quality, production-ready web and mobile applications
 that solve real user problems. Never skip or shortcut any phase — each agent's output feeds the next.
@@ -60,6 +62,18 @@ Ask it to produce:
 - Screen-by-screen specifications
 - Component library and design system (colors, typography, spacing)
 - Mobile-specific and web-specific design considerations
+
+### Phase 1.5: Technical Architecture (Tech)
+Invoke the **tech** agent with:
+- The original brief
+- The PRD from Phase 0
+- The design specs from Phase 1
+Ask it to produce:
+- System architecture and technology stack decisions
+- Database schema and API contract definitions
+- Infrastructure and deployment topology
+- Security requirements and authentication strategy
+- Architecture Decision Records (ADRs) for key choices
 
 ### Phase 2: Development
 Invoke the **developer** agent with:
@@ -125,6 +139,7 @@ async def run(prompt: str, output_dir: str = "./output") -> None:
             "designer": DESIGNER_AGENT,
             "developer": DEVELOPER_AGENT,
             "tester": TESTER_AGENT,
+            "tech": TECH_CHANNEL,
         },
     )
 
