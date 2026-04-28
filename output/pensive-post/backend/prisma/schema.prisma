@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SignatureMode {
+  STYLE
+  DRAW
+  INITIALS
+}
+
+enum DeliveryMethod {
+  SMS
+  EMAIL
+  LINK
+}
+
+enum GiftStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+  DELIVERED
+  OPENED
+  REDEEMED
+  RECALLED
+}
+
+model User {
+  id                   String   @id @default(cuid())
+  email                String   @unique
+  name                 String
+  passwordHash         String
+  stripeCustomerId     String?
+  notificationsEnabled Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  gifts Gift[] @relation("SenderGifts")
+
+  @@map("users")
+}
+
+model Gift {
+  id                   String         @id @default(cuid())
+  senderId             String
+  recipientName        String
+  recipientPhone       String?
+  recipientEmail       String?
+  brandId              String
+  cardDesignId         String
+  amount               Int
+  message              String
+  signatureMode        SignatureMode
+  signatureData        String
+  deliveryMethod       DeliveryMethod
+  scheduledAt          DateTime?
+  sentAt               DateTime?
+  deliveredAt          DateTime?
+  openedAt             DateTime?
+  redeemedAt           DateTime?
+  nudgeSentAt          DateTime?
+  status               GiftStatus     @default(DRAFT)
+  recipientToken       String         @unique
+  giftCardCode         String?
+  giftCardPin          String?
+  aggregatorOrderId    String?
+  stripePaymentIntentId String?
+  thankYouMessage      String?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  sender     User       @relation("SenderGifts", fields: [senderId], references: [id])
+  brand      Brand      @relation(fields: [brandId], references: [id])
+  cardDesign CardDesign @relation(fields: [cardDesignId], references: [id])
+
+  @@map("gifts")
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  logoUrl   String
+  category  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  gifts Gift[]
+
+  @@map("brands")
+}
+
+model CardDesign {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  occasion     String
+  imageUrl     String
+  thumbnailUrl String
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  gifts Gift[]
+
+  @@map("card_designs")
+}
+
+model Occasion {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  label     String
+  emoji     String
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("occasions")
+}

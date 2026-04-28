@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #FBF8F3;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #1A1A1A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #E8E3DB;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6B6459;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #E8E3DB transparent;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Canela', 'Georgia', 'Times New Roman', serif;
+  }
+
+  /* Envelope animation */
+  @keyframes flapOpen {
+    0%   { transform: rotateX(0deg); }
+    100% { transform: rotateX(-180deg); }
+  }
+
+  @keyframes cardSlideUp {
+    0%   { transform: translateY(60px); opacity: 0; }
+    100% { transform: translateY(0px); opacity: 1; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out both;
+  }
+
+  .animate-flap-open {
+    animation: flapOpen 0.6s ease-in-out forwards;
+    transform-origin: top center;
+  }
+
+  .animate-card-slide-up {
+    animation: cardSlideUp 0.6s ease-out 0.4s both;
+  }
+
+  .perspective-container {
+    perspective: 600px;
+  }
+}
