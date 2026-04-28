@@ -15,10 +15,6 @@ import { useGiftStore } from '../store/gift';
 
 type DeliveryNavigationProp = StackNavigationProp<RootStackParamList, 'Delivery'>;
 
-interface DeliveryScreenProps {
-  navigation: DeliveryNavigationProp;
-}
-
 interface DeliveryOption {
   method: DeliveryMethod;
   icon: string;

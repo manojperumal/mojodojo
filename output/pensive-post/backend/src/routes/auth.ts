@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import prisma from '../lib/prisma.js';
-import { stripe } from '../lib/stripe.js';
-import { requireAuth, signToken } from '../middleware/auth.js';
+import prisma from '../lib/prisma';
+import { stripe } from '../lib/stripe';
+import { requireAuth, signToken } from '../middleware/auth';
 
 const router = Router();
 

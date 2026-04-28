@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { z } from 'zod';
-import prisma from '../lib/prisma.js';
-import { decrypt } from '../lib/crypto.js';
+import prisma from '../lib/prisma';
+import { decrypt } from '../lib/crypto';
 
 const router = Router();
 

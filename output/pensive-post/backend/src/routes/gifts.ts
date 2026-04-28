@@ -2,12 +2,12 @@ import { Router, Request, Response } from 'express';
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import { isFuture } from 'date-fns';
-import prisma from '../lib/prisma.js';
-import { stripe, createPaymentIntent } from '../lib/stripe.js';
-import { placeOrder, voidOrder } from '../lib/tango.js';
-import { sendSMS, sendEmail } from '../lib/delivery.js';
-import { encrypt } from '../lib/crypto.js';
-import { requireAuth } from '../middleware/auth.js';
+import prisma from '../lib/prisma';
+import { stripe, createPaymentIntent } from '../lib/stripe';
+import { placeOrder, voidOrder } from '../lib/tango';
+import { sendSMS, sendEmail } from '../lib/delivery';
+import { encrypt } from '../lib/crypto';
+import { requireAuth } from '../middleware/auth';
 import type { GiftStatus } from '@prisma/client';
 
 const router = Router();

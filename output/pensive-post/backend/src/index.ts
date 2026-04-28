@@ -3,12 +3,12 @@ import express from 'express';
 import cors from 'cors';
 import http from 'http';
 
-import authRouter from './routes/auth.js';
-import brandsRouter from './routes/brands.js';
-import occasionsRouter from './routes/occasions.js';
-import giftsRouter from './routes/gifts.js';
-import recipientRouter from './routes/recipient.js';
-import prisma from './lib/prisma.js';
+import authRouter from './routes/auth';
+import brandsRouter from './routes/brands';
+import occasionsRouter from './routes/occasions';
+import giftsRouter from './routes/gifts';
+import recipientRouter from './routes/recipient';
+import prisma from './lib/prisma';
 
 const app = express();
 const PORT = parseInt(process.env['PORT'] ?? '3001', 10);
