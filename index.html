@@ -9,16 +9,16 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --paper: #FBF8F3;
-  --ink: #1A1A1A;
-  --terra: #C75A3F;
-  --muted: #6B6459;
-  --border: #E8E3DB;
+  --paper: #FFF7EE;
+  --ink: #1A0A00;
+  --terra: #F97316;
+  --muted: #A0622A;
+  --border: #FFD5A8;
   --white: #FFFFFF;
 }
 body {
   min-height: 100vh;
-  background: #161412;
+  background: #1A0900;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,8 +28,6 @@ body {
   padding: 28px 16px 40px;
   gap: 20px;
 }
-
-/* ── Header ── */
 .header {
   display: flex;
   flex-direction: column;
@@ -64,25 +62,23 @@ body {
   transition: all 0.2s;
 }
 .flow-btn.active {
-  background: var(--terra);
+  background: #F97316;
   color: white;
-  box-shadow: 0 2px 8px rgba(199,90,63,0.4);
+  box-shadow: 0 2px 8px rgba(249,115,22,0.5);
 }
 .screen-info {
   color: rgba(255,255,255,0.25);
   font-size: 12px;
   letter-spacing: 0.03em;
 }
-
-/* ── Phone ── */
 .phone {
   width: 375px;
   height: 780px;
   border-radius: 50px;
-  border: 9px solid #2A2826;
+  border: 9px solid #2A1200;
   overflow: hidden;
-  background: var(--paper);
-  box-shadow: 0 0 0 1px #3A3632, 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+  background: #FFF7EE;
+  box-shadow: 0 0 0 1px #3A1800, 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -95,18 +91,17 @@ body {
   align-items: center;
   flex-shrink: 0;
   transition: background 0.3s, color 0.3s;
-  background: var(--paper);
-  color: var(--ink);
+  background: #FFF7EE;
+  color: #1A0A00;
   position: relative;
   z-index: 10;
 }
 .status-time { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
 .status-icons { font-size: 12px; opacity: 0.7; }
-
 .screen-container { flex: 1; position: relative; overflow: hidden; }
 .screen {
   position: absolute; inset: 0;
-  background: var(--paper);
+  background: #FFF7EE;
   overflow-y: auto; overflow-x: hidden;
   opacity: 0;
   pointer-events: none;
@@ -115,8 +110,6 @@ body {
 }
 .screen::-webkit-scrollbar { display: none; }
 .screen.active { opacity: 1; pointer-events: all; }
-
-/* ── Nav ── */
 .nav-bar {
   display: flex;
   gap: 10px;
@@ -135,14 +128,12 @@ body {
 }
 .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.1); color: white; }
 .nav-btn:disabled { opacity: 0.2; cursor: default; }
-
-/* ── Shared ── */
 .top-bar {
   padding: 10px 20px 10px;
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #FFD5A8;
 }
 .back-btn {
   width: 30px; height: 30px;
@@ -150,19 +141,19 @@ body {
   background: rgba(0,0,0,0.05);
   cursor: pointer; font-size: 15px;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; color: var(--ink);
+  flex-shrink: 0; color: #1A0A00;
 }
-.top-bar-label { font-size: 14px; font-weight: 500; color: var(--muted); }
+.top-bar-label { font-size: 14px; font-weight: 500; color: #A0622A; }
 .wordmark {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 20px; font-weight: 600;
-  color: var(--ink); padding: 14px 20px 10px;
+  color: #1A0A00; padding: 14px 20px 10px;
   letter-spacing: 0.02em;
 }
 .cta-wrap { padding: 12px 20px 20px; }
 .cta-btn {
   width: 100%; padding: 15px;
-  background: var(--terra); color: white;
+  background: #F97316; color: white;
   border: none; border-radius: 14px;
   font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
   cursor: pointer; transition: opacity 0.15s; text-align: center;
@@ -171,16 +162,14 @@ body {
 .section-label {
   padding: 14px 20px 8px;
   font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.09em; color: #A0622A;
 }
-
-/* ── S0: Home ── */
 .greeting { padding: 22px 20px 18px; }
 .greeting h1 {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 30px; font-weight: 600; line-height: 1.2; color: var(--ink);
+  font-size: 30px; font-weight: 600; line-height: 1.2; color: #1A0A00;
 }
-.greeting p { font-size: 14px; color: var(--muted); margin-top: 5px; }
+.greeting p { font-size: 14px; color: #A0622A; margin-top: 5px; }
 .occasion-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 10px; padding: 0 20px 24px;
@@ -193,17 +182,15 @@ body {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
 .occasion-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-.occasion-card.selected { border-color: var(--terra); }
+.occasion-card.selected { border-color: #F97316; }
 .occasion-emoji { font-size: 34px; }
-.occasion-label { font-size: 13px; font-weight: 500; color: var(--ink); }
-
-/* ── S1: Brand Picker ── */
+.occasion-label { font-size: 13px; font-weight: 500; color: #1A0A00; }
 .search-wrap { padding: 12px 20px; }
 .search-input {
   width: 100%; padding: 10px 14px;
-  border: 1.5px solid var(--border); border-radius: 10px;
+  border: 1.5px solid #FFD5A8; border-radius: 10px;
   font-family: 'Inter', sans-serif; font-size: 14px;
-  background: white; color: var(--ink); outline: none;
+  background: white; color: #1A0A00; outline: none;
 }
 .brands-row {
   display: flex; gap: 10px;
@@ -218,16 +205,16 @@ body {
   box-shadow: 0 1px 5px rgba(0,0,0,0.06);
   transition: all 0.15s; position: relative;
 }
-.brand-pill.selected { border-color: var(--terra); }
+.brand-pill.selected { border-color: #F97316; }
 .brand-pill .chk {
   position: absolute; top: 4px; right: 4px;
-  width: 15px; height: 15px; background: var(--terra);
+  width: 15px; height: 15px; background: #F97316;
   border-radius: 50%; color: white; font-size: 8px;
   display: none; align-items: center; justify-content: center;
 }
 .brand-pill.selected .chk { display: flex; }
 .bp-emoji { font-size: 26px; display: block; margin-bottom: 4px; }
-.bp-name { font-size: 10px; color: var(--muted); line-height: 1.2; }
+.bp-name { font-size: 10px; color: #A0622A; line-height: 1.2; }
 .brands-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 20px 24px; }
 .brand-row-tile {
   background: white; border-radius: 12px; padding: 13px;
@@ -236,18 +223,16 @@ body {
   transition: all 0.15s; display: flex; align-items: center; gap: 10px;
   position: relative;
 }
-.brand-row-tile.selected { border-color: var(--terra); }
+.brand-row-tile.selected { border-color: #F97316; }
 .brand-row-tile .chk {
   position: absolute; top: 5px; right: 5px;
-  width: 15px; height: 15px; background: var(--terra);
+  width: 15px; height: 15px; background: #F97316;
   border-radius: 50%; color: white; font-size: 8px;
   display: none; align-items: center; justify-content: center;
 }
 .brand-row-tile.selected .chk { display: flex; }
 .brt-emoji { font-size: 20px; }
-.brt-name { font-size: 13px; font-weight: 500; color: var(--ink); }
-
-/* ── S2: Amount + Card ── */
+.brt-name { font-size: 13px; font-weight: 500; color: #1A0A00; }
 .card-preview {
   margin: 14px 20px 0;
   border-radius: 18px; aspect-ratio: 3/2;
@@ -257,14 +242,14 @@ body {
   justify-content: flex-end; padding: 14px;
   transition: background 0.3s;
 }
-.card-d0 { background: linear-gradient(160deg,#FBF8F3 0%,#EFE4D4 100%); border: 1.5px solid #DDD0BC; }
-.card-d1 { background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%); }
-.card-d2 { background: linear-gradient(140deg,#7A9E7E 0%,#4F7855 100%); }
-.card-d3 { background: linear-gradient(140deg,#2C3E5A 0%,#1A2638 100%); }
+.card-d0 { background: linear-gradient(160deg,#FFF7EE 0%,#FFE4C4 100%); border: 1.5px solid #FFD5A8; }
+.card-d1 { background: linear-gradient(140deg,#F97316 0%,#EA580C 100%); }
+.card-d2 { background: linear-gradient(140deg,#FBBF24 0%,#D97706 100%); }
+.card-d3 { background: linear-gradient(140deg,#92400E 0%,#451A03 100%); }
 .card-corner-art {
   position: absolute; top: 0; right: 0;
   width: 110px; height: 110px;
-  background: radial-gradient(circle at 100% 0%, rgba(199,90,63,0.1) 0%, transparent 65%);
+  background: radial-gradient(circle at 100% 0%, rgba(249,115,22,0.1) 0%, transparent 65%);
 }
 .card-occasion-txt {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -273,16 +258,8 @@ body {
 .card-brand-chip {
   display: inline-flex; align-items: center; gap: 4px;
   background: rgba(255,255,255,0.9); border-radius: 8px;
-  padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--ink);
+  padding: 4px 10px; font-size: 11px; font-weight: 600; color: #1A0A00;
   align-self: flex-end; position: absolute; bottom: 12px; right: 12px;
-}
-.card-message-preview {
-  font-size: 11px; line-height: 1.4; opacity: 0.75; margin-bottom: 28px;
-  font-style: italic; max-width: 60%;
-}
-.card-sig-preview {
-  font-family: 'Caveat', cursive; font-size: 16px; opacity: 0.8;
-  border-top: 1px solid rgba(255,255,255,0.3); padding-top: 6px; width: 80px;
 }
 .card-dots {
   display: flex; gap: 6px; justify-content: center;
@@ -290,101 +267,95 @@ body {
 }
 .card-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--border); cursor: pointer;
+  background: #FFD5A8; cursor: pointer;
   transition: all 0.2s;
 }
-.card-dot.active { background: var(--terra); transform: scale(1.4); }
+.card-dot.active { background: #F97316; transform: scale(1.4); }
 .amount-section { padding: 4px 20px 0; }
-.amount-heading { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+.amount-heading { font-size: 13px; font-weight: 600; color: #A0622A; margin-bottom: 10px; }
 .chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
   padding: 8px 18px; border-radius: 100px;
-  border: 1.5px solid var(--border); background: white;
+  border: 1.5px solid #FFD5A8; background: white;
   font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
-  cursor: pointer; color: var(--ink); transition: all 0.15s;
+  cursor: pointer; color: #1A0A00; transition: all 0.15s;
 }
-.chip.selected { background: var(--terra); border-color: var(--terra); color: white; }
-
-/* ── S3: Personalise ── */
+.chip.selected { background: #F97316; border-color: #F97316; color: white; }
 .field-wrap { padding: 0 20px; margin-bottom: 14px; }
-.field-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+.field-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #A0622A; margin-bottom: 6px; }
 .field-input {
   width: 100%; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: 10px;
+  border: 1.5px solid #FFD5A8; border-radius: 10px;
   font-family: 'Inter', sans-serif; font-size: 14px;
-  background: white; color: var(--ink); outline: none;
+  background: white; color: #1A0A00; outline: none;
   transition: border-color 0.2s;
 }
-.field-input:focus { border-color: var(--terra); }
+.field-input:focus { border-color: #F97316; }
 .field-textarea { resize: none; height: 82px; line-height: 1.5; }
-.char-count { text-align: right; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.char-count { text-align: right; font-size: 11px; color: #A0622A; margin-top: 4px; }
 .sig-tabs-row {
-  display: flex; border-bottom: 1px solid var(--border); margin: 0 20px 14px;
+  display: flex; border-bottom: 1px solid #FFD5A8; margin: 0 20px 14px;
 }
 .sig-tab {
   flex: 1; padding: 9px 0; border: none; background: none;
   font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
-  color: var(--muted); cursor: pointer;
+  color: #A0622A; cursor: pointer;
   border-bottom: 2px solid transparent; transition: all 0.18s;
 }
-.sig-tab.active { color: var(--terra); border-bottom-color: var(--terra); }
+.sig-tab.active { color: #F97316; border-bottom-color: #F97316; }
 .sig-panel { display: none; padding: 0 20px 8px; }
 .sig-panel.active { display: block; }
 .sig-font-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .sig-font-opt {
-  padding: 11px; border: 1.5px solid var(--border);
+  padding: 11px; border: 1.5px solid #FFD5A8;
   border-radius: 10px; background: white;
   cursor: pointer; text-align: center; transition: all 0.15s;
 }
-.sig-font-opt.selected { border-color: var(--terra); background: rgba(199,90,63,0.04); }
+.sig-font-opt.selected { border-color: #F97316; background: rgba(249,115,22,0.04); }
 .sig-font-opt .sf-name { font-size: 19px; display: block; margin-bottom: 2px; }
-.sig-font-opt .sf-label { font-size: 10px; color: var(--muted); }
+.sig-font-opt .sf-label { font-size: 10px; color: #A0622A; }
 .canvas-wrap {
-  border: 1.5px dashed var(--border); border-radius: 10px;
+  border: 1.5px dashed #FFD5A8; border-radius: 10px;
   background: white; position: relative;
 }
 #sigCanvas { display: block; width: 100%; height: 90px; cursor: crosshair; touch-action: none; }
 .canvas-clear-btn {
   position: absolute; bottom: 6px; right: 8px;
-  font-size: 11px; color: var(--muted); cursor: pointer;
+  font-size: 11px; color: #A0622A; cursor: pointer;
   border: none; background: none; font-family: 'Inter', sans-serif;
 }
 .initials-row { display: flex; gap: 10px; }
 .initial-opt {
-  width: 68px; height: 68px; border: 1.5px solid var(--border);
+  width: 68px; height: 68px; border: 1.5px solid #FFD5A8;
   border-radius: 10px; background: white; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-size: 24px; font-weight: 700; transition: all 0.15s;
-  font-family: 'Cormorant Garamond', Georgia, serif; color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif; color: #1A0A00;
 }
 .initial-opt.circle { border-radius: 50%; }
-.initial-opt.selected { border-color: var(--terra); color: var(--terra); }
-
-/* ── S4: Delivery ── */
+.initial-opt.selected { border-color: #F97316; color: #F97316; }
 .delivery-opts { padding: 14px 20px 0; display: flex; flex-direction: column; gap: 8px; }
 .d-opt {
-  border: 2px solid var(--border); border-radius: 14px;
+  border: 2px solid #FFD5A8; border-radius: 14px;
   padding: 14px; cursor: pointer; background: white;
   transition: all 0.15s;
 }
-.d-opt.selected { border-color: var(--terra); background: rgba(199,90,63,0.02); }
+.d-opt.selected { border-color: #F97316; background: rgba(249,115,22,0.02); }
 .d-opt-head { display: flex; align-items: center; gap: 10px; }
 .d-icon { font-size: 20px; }
-.d-title { font-size: 14px; font-weight: 600; color: var(--ink); }
-.d-sub { font-size: 11px; color: var(--muted); }
+.d-title { font-size: 14px; font-weight: 600; color: #1A0A00; }
+.d-sub { font-size: 11px; color: #A0622A; }
 .d-inp-wrap { margin-top: 10px; }
 .when-wrap { padding: 14px 20px 0; }
-.when-lbl { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+.when-lbl { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #A0622A; margin-bottom: 8px; }
 .when-opts { display: flex; gap: 8px; }
 .when-opt {
-  flex: 1; padding: 11px; border: 1.5px solid var(--border);
+  flex: 1; padding: 11px; border: 1.5px solid #FFD5A8;
   border-radius: 10px; background: white; text-align: center;
-  font-size: 13px; font-weight: 500; cursor: pointer; color: var(--ink); transition: all 0.15s;
+  font-size: 13px; font-weight: 500; cursor: pointer; color: #1A0A00; transition: all 0.15s;
 }
-.when-opt.selected { border-color: var(--terra); color: var(--terra); }
-
-/* ── S5: Preview ── */
-.preview-note { padding: 14px 20px 8px; font-size: 13px; color: var(--muted); }
+.when-opt.selected { border-color: #F97316; color: #F97316; }
+.preview-note { padding: 14px 20px 8px; font-size: 13px; color: #A0622A; }
 .sms-bubble-wrap { padding: 0 20px 16px; }
 .sms-bubble {
   display: inline-block; background: #E5E5EA; border-radius: 16px 16px 16px 4px;
@@ -396,18 +367,18 @@ body {
 .envelope {
   margin: 0 20px;
   aspect-ratio: 3/2; border-radius: 16px;
-  background: white; border: 1.5px solid var(--border);
+  background: white; border: 1.5px solid #FFD5A8;
   position: relative; overflow: hidden; cursor: pointer;
   box-shadow: 0 4px 20px rgba(0,0,0,0.09);
 }
 .env-back {
   position: absolute; inset: 0;
-  background: linear-gradient(160deg, #FBF8F3 0%, #EFE4D4 100%);
+  background: linear-gradient(160deg, #FFF7EE 0%, #FFE4C4 100%);
   border-radius: 16px;
 }
 .env-flap {
   position: absolute; top: 0; left: 0; right: 0; height: 55%;
-  background: linear-gradient(175deg, #F2E8D8 0%, #E8D9C2 100%);
+  background: linear-gradient(175deg, #FFE0B2 0%, #FFBA7A 100%);
   clip-path: polygon(0 0, 50% 58%, 100% 0);
   transform-origin: top;
   transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
@@ -415,40 +386,36 @@ body {
 .env-logo {
   position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 13px; color: var(--muted); letter-spacing: 0.05em; white-space: nowrap;
+  font-size: 13px; color: #A0622A; letter-spacing: 0.05em; white-space: nowrap;
 }
 .env-tap {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; font-size: 12px; color: var(--muted);
+  gap: 6px; font-size: 12px; color: #A0622A;
   transition: opacity 0.3s;
 }
 .env-tap-icon { font-size: 26px; }
 .envelope.opened .env-flap { transform: rotateX(175deg); }
 .envelope.opened .env-tap { opacity: 0; }
-.preview-edit { display: block; text-align: center; font-size: 13px; color: var(--terra); padding: 14px 20px 4px; cursor: pointer; }
-
-/* ── S6: Review ── */
+.preview-edit { display: block; text-align: center; font-size: 13px; color: #F97316; padding: 14px 20px 4px; cursor: pointer; }
 .review-wrap { padding: 14px 20px; }
 .review-row {
   display: flex; justify-content: space-between;
-  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+  padding: 9px 0; border-bottom: 1px solid #FFD5A8; font-size: 14px;
 }
-.rv-lbl { color: var(--muted); }
-.rv-val { font-weight: 500; color: var(--ink); }
-.rv-divider { height: 1px; background: var(--ink); opacity: 0.08; margin: 4px 0; }
+.rv-lbl { color: #A0622A; }
+.rv-val { font-weight: 500; color: #1A0A00; }
+.rv-divider { height: 1px; background: #1A0A00; opacity: 0.08; margin: 4px 0; }
 .rv-total { display: flex; justify-content: space-between; padding: 12px 0; font-size: 16px; font-weight: 700; }
 .payment-card {
   margin: 4px 20px 16px;
-  background: white; border: 1.5px solid var(--border); border-radius: 12px;
+  background: white; border: 1.5px solid #FFD5A8; border-radius: 12px;
   padding: 13px 16px; display: flex; align-items: center; justify-content: space-between;
 }
 .pc-left { display: flex; align-items: center; gap: 10px; font-size: 14px; }
-.pc-dots { font-size: 16px; letter-spacing: 1px; color: var(--muted); }
-.pc-change { font-size: 13px; color: var(--terra); }
-.terms-note { text-align: center; font-size: 11px; color: var(--muted); margin-top: 10px; }
-
-/* ── S7: Confirmation ── */
+.pc-dots { font-size: 16px; letter-spacing: 1px; color: #A0622A; }
+.pc-change { font-size: 13px; color: #F97316; }
+.terms-note { text-align: center; font-size: 11px; color: #A0622A; margin-top: 10px; }
 .confirm-screen {
   height: 100%; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
@@ -456,36 +423,34 @@ body {
 }
 .confirm-sent {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 54px; color: var(--ink); margin-bottom: 10px;
+  font-size: 54px; color: #1A0A00; margin-bottom: 10px;
 }
-.confirm-body { font-size: 15px; color: var(--muted); margin-bottom: 30px; line-height: 1.5; }
+.confirm-body { font-size: 15px; color: #A0622A; margin-bottom: 30px; line-height: 1.5; }
 .confirm-thumb {
   width: 160px; aspect-ratio: 3/2; border-radius: 12px;
-  background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%);
+  background: linear-gradient(140deg,#F97316 0%,#EA580C 100%);
   margin-bottom: 30px; display: flex; align-items: flex-end;
   justify-content: flex-end; padding: 8px; overflow: hidden;
 }
 .confirm-chip {
   background: rgba(255,255,255,0.9); border-radius: 6px;
-  padding: 3px 8px; font-size: 10px; font-weight: 600; color: var(--ink);
+  padding: 3px 8px; font-size: 10px; font-weight: 600; color: #1A0A00;
 }
 .confirm-actions { width: 100%; text-align: left; }
 .confirm-action {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 13px 0; border-bottom: 1px solid var(--border);
-  font-size: 14px; cursor: pointer; color: var(--ink);
+  padding: 13px 0; border-bottom: 1px solid #FFD5A8;
+  font-size: 14px; cursor: pointer; color: #1A0A00;
 }
-.ca-arrow { color: var(--muted); }
-
-/* ── R0: Recipient Landing ── */
-#r0 { background: #1A2638; }
+.ca-arrow { color: #A0622A; }
+#r0 { background: #451A03; }
 .r-landing {
   height: 100%; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   padding: 40px 28px; text-align: center; color: white;
 }
 .r-badge {
-  background: rgba(255,255,255,0.12); border-radius: 100px;
+  background: rgba(255,255,255,0.15); border-radius: 100px;
   padding: 6px 16px; font-size: 12px; font-weight: 600;
   letter-spacing: 0.04em; margin-bottom: 36px;
 }
@@ -504,21 +469,19 @@ body {
 }
 .r-hint { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 44px; }
 .r-open-btn {
-  padding: 15px 44px; background: white; color: #1A2638;
+  padding: 15px 44px; background: white; color: #451A03;
   border: none; border-radius: 100px;
   font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
   cursor: pointer; transition: opacity 0.15s;
 }
 .r-open-btn:hover { opacity: 0.92; }
-
-/* ── R1: Card Reveal ── */
 .r-card-wrap { padding: 18px 20px 14px; }
 .r-full-card {
   border-radius: 18px; aspect-ratio: 3/2; overflow: hidden;
-  background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%);
+  background: linear-gradient(140deg,#F97316 0%,#EA580C 100%);
   padding: 16px; display: flex; flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 10px 36px rgba(199,90,63,0.3);
+  box-shadow: 0 10px 36px rgba(249,115,22,0.3);
 }
 .r-card-occasion {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -528,67 +491,63 @@ body {
 .r-card-msg-snip { font-size: 10px; color: rgba(255,255,255,0.65); font-style: italic; max-width: 55%; line-height: 1.4; }
 .r-card-chip {
   background: rgba(255,255,255,0.92); border-radius: 8px;
-  padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--ink);
+  padding: 4px 10px; font-size: 11px; font-weight: 600; color: #1A0A00;
 }
 .r-message-wrap { padding: 0 20px 16px; }
-.r-from-lbl { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
-.r-msg-text { font-size: 15px; line-height: 1.65; color: var(--ink); margin-bottom: 14px; }
+.r-from-lbl { font-size: 12px; color: #A0622A; margin-bottom: 8px; }
+.r-msg-text { font-size: 15px; line-height: 1.65; color: #1A0A00; margin-bottom: 14px; }
 .r-signature {
-  font-family: 'Caveat', cursive; font-size: 28px; color: var(--ink);
-  border-top: 1px solid var(--border); padding-top: 10px;
+  font-family: 'Caveat', cursive; font-size: 28px; color: #1A0A00;
+  border-top: 1px solid #FFD5A8; padding-top: 10px;
 }
 .r-reveal-btn {
   margin: 0 20px 8px; width: calc(100% - 40px);
-  padding: 15px; background: var(--terra); color: white;
+  padding: 15px; background: #F97316; color: white;
   border: none; border-radius: 14px;
   font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
   cursor: pointer;
 }
-
-/* ── R2: Redeemed ── */
 .r-redeemed {
   padding: 36px 20px 20px; display: flex;
   flex-direction: column; align-items: center; text-align: center;
 }
 .r-amount-big {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 52px; font-weight: 600; color: var(--ink); line-height: 1;
+  font-size: 52px; font-weight: 600; color: #1A0A00; line-height: 1;
 }
-.r-brand-lbl { font-size: 14px; color: var(--muted); margin: 4px 0 28px; }
+.r-brand-lbl { font-size: 14px; color: #A0622A; margin: 4px 0 28px; }
 .r-code-card {
-  width: 100%; background: white; border: 2px solid var(--border);
+  width: 100%; background: white; border: 2px solid #FFD5A8;
   border-radius: 16px; padding: 22px 20px; margin-bottom: 14px;
 }
-.r-code-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+.r-code-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #A0622A; margin-bottom: 10px; }
 .r-code {
   font-family: 'Courier New', monospace; font-size: 24px; font-weight: 700;
-  letter-spacing: 3px; color: var(--ink); margin-bottom: 14px;
+  letter-spacing: 3px; color: #1A0A00; margin-bottom: 14px;
 }
 .r-copy-btn {
-  padding: 8px 22px; border: 1.5px solid var(--terra);
-  border-radius: 100px; color: var(--terra); background: none;
+  padding: 8px 22px; border: 1.5px solid #F97316;
+  border-radius: 100px; color: #F97316; background: none;
   font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
   cursor: pointer; transition: all 0.15s;
 }
-.r-copy-btn:hover { background: var(--terra); color: white; }
+.r-copy-btn:hover { background: #F97316; color: white; }
 .r-redeem-brand-btn {
-  width: 100%; padding: 15px; background: #1A2638; color: white;
+  width: 100%; padding: 15px; background: #451A03; color: white;
   border: none; border-radius: 14px;
   font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
   cursor: pointer; margin-bottom: 16px;
 }
-.r-thankyou-link { font-size: 14px; color: var(--terra); cursor: pointer; padding: 6px; }
-
+.r-thankyou-link { font-size: 14px; color: #F97316; cursor: pointer; padding: 6px; }
 .pb-80 { padding-bottom: 80px; }
 .sticky-cta {
   position: sticky; bottom: 0;
-  background: linear-gradient(to top, var(--paper) 75%, transparent);
+  background: linear-gradient(to top, #FFF7EE 75%, transparent);
   padding: 14px 20px 18px;
 }
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="app-title">Pensive Post</div>
   <div class="flow-toggle">
@@ -597,15 +556,12 @@ body {
   </div>
   <div class="screen-info" id="screenInfo">Home · 1 of 8</div>
 </div>
-
 <div class="phone">
   <div class="status-bar" id="statusBar">
     <span class="status-time">9:41</span>
     <span class="status-icons">●●●  WiFi  🔋</span>
   </div>
   <div class="screen-container">
-
-    <!-- ── S0: Home ── -->
     <div class="screen active" id="s0">
       <div class="wordmark">Pensive Post</div>
       <div class="greeting">
@@ -614,28 +570,20 @@ body {
       </div>
       <div class="occasion-grid" id="occasionGrid"></div>
     </div>
-
-    <!-- ── S1: Brand Picker ── -->
     <div class="screen" id="s1">
       <div class="top-bar">
         <button class="back-btn" onclick="goTo(0)">←</button>
         <span class="top-bar-label" id="s1Title">Thank You</span>
       </div>
       <div class="pb-80">
-        <div class="search-wrap">
-          <input class="search-input" placeholder="🔍  Search brands" type="text">
-        </div>
+        <div class="search-wrap"><input class="search-input" placeholder="🔍  Search brands" type="text"></div>
         <div class="section-label" id="recLabel">Recommended for Thank You</div>
         <div class="brands-row" id="recBrands"></div>
         <div class="section-label" style="margin-top:8px">All Brands</div>
         <div class="brands-grid" id="allBrands"></div>
       </div>
-      <div class="sticky-cta">
-        <button class="cta-btn" onclick="goTo(2)">Continue →</button>
-      </div>
+      <div class="sticky-cta"><button class="cta-btn" onclick="goTo(2)">Continue →</button></div>
     </div>
-
-    <!-- ── S2: Amount + Card Design ── -->
     <div class="screen" id="s2">
       <div class="top-bar">
         <button class="back-btn" onclick="goTo(1)">←</button>
@@ -653,12 +601,8 @@ body {
           <div class="chips-row" id="amountChips"></div>
         </div>
       </div>
-      <div class="sticky-cta">
-        <button class="cta-btn" onclick="goTo(3)">Personalise →</button>
-      </div>
+      <div class="sticky-cta"><button class="cta-btn" onclick="goTo(3)">Personalise →</button></div>
     </div>
-
-    <!-- ── S3: Personalise ── -->
     <div class="screen" id="s3">
       <div class="top-bar">
         <button class="back-btn" onclick="goTo(2)">←</button>
@@ -680,9 +624,7 @@ body {
           <button class="sig-tab" onclick="setSigTab('draw',this)">Draw</button>
           <button class="sig-tab" onclick="setSigTab('initials',this)">Initials</button>
         </div>
-        <div class="sig-panel active" id="panelStyle">
-          <div class="sig-font-grid" id="sigFonts"></div>
-        </div>
+        <div class="sig-panel active" id="panelStyle"><div class="sig-font-grid" id="sigFonts"></div></div>
         <div class="sig-panel" id="panelDraw">
           <div class="canvas-wrap">
             <canvas id="sigCanvas"></canvas>
@@ -696,12 +638,8 @@ body {
           </div>
         </div>
       </div>
-      <div class="sticky-cta">
-        <button class="cta-btn" onclick="goTo(4)">Delivery →</button>
-      </div>
+      <div class="sticky-cta"><button class="cta-btn" onclick="goTo(4)">Delivery →</button></div>
     </div>
-
-    <!-- ── S4: Delivery ── -->
     <div class="screen" id="s4">
       <div class="top-bar">
         <button class="back-btn" onclick="goTo(3)">←</button>
@@ -710,28 +648,15 @@ body {
       <div class="pb-80">
         <div class="delivery-opts">
           <div class="d-opt selected" id="dSMS" onclick="pickDelivery('sms')">
-            <div class="d-opt-head">
-              <span class="d-icon">📱</span>
-              <div><div class="d-title">Text message</div><div class="d-sub">Delivered via SMS</div></div>
-            </div>
-            <div class="d-inp-wrap" id="smsField">
-              <input class="field-input" type="tel" value="(415) 555-0123">
-            </div>
+            <div class="d-opt-head"><span class="d-icon">📱</span><div><div class="d-title">Text message</div><div class="d-sub">Delivered via SMS</div></div></div>
+            <div class="d-inp-wrap" id="smsField"><input class="field-input" type="tel" value="(415) 555-0123"></div>
           </div>
           <div class="d-opt" id="dEmail" onclick="pickDelivery('email')">
-            <div class="d-opt-head">
-              <span class="d-icon">✉️</span>
-              <div><div class="d-title">Email</div><div class="d-sub">Delivered via email</div></div>
-            </div>
-            <div class="d-inp-wrap" id="emailField" style="display:none">
-              <input class="field-input" type="email" placeholder="Email address">
-            </div>
+            <div class="d-opt-head"><span class="d-icon">✉️</span><div><div class="d-title">Email</div><div class="d-sub">Delivered via email</div></div></div>
+            <div class="d-inp-wrap" id="emailField" style="display:none"><input class="field-input" type="email" placeholder="Email address"></div>
           </div>
           <div class="d-opt" id="dLink" onclick="pickDelivery('link')">
-            <div class="d-opt-head">
-              <span class="d-icon">🔗</span>
-              <div><div class="d-title">Shareable link</div><div class="d-sub">Copy and send yourself</div></div>
-            </div>
+            <div class="d-opt-head"><span class="d-icon">🔗</span><div><div class="d-title">Shareable link</div><div class="d-sub">Copy and send yourself</div></div></div>
           </div>
         </div>
         <div class="when-wrap">
@@ -742,12 +667,8 @@ body {
           </div>
         </div>
       </div>
-      <div class="sticky-cta">
-        <button class="cta-btn" onclick="goTo(5)">Preview →</button>
-      </div>
+      <div class="sticky-cta"><button class="cta-btn" onclick="goTo(5)">Preview →</button></div>
     </div>
-
-    <!-- ── S5: Preview ── -->
     <div class="screen" id="s5">
       <div class="top-bar">
         <button class="back-btn" onclick="goTo(4)">←</button>
@@ -766,19 +687,12 @@ body {
           <div class="env-back"></div>
           <div class="env-flap"></div>
           <div class="env-logo">Pensive Post</div>
-          <div class="env-tap" id="envTap">
-            <span class="env-tap-icon">✉️</span>
-            <span>Tap to open</span>
-          </div>
+          <div class="env-tap" id="envTap"><span class="env-tap-icon">✉️</span><span>Tap to open</span></div>
         </div>
         <span class="preview-edit" onclick="goTo(3)">← Edit card</span>
       </div>
-      <div class="sticky-cta">
-        <button class="cta-btn" onclick="goTo(6)">Review &amp; Pay →</button>
-      </div>
+      <div class="sticky-cta"><button class="cta-btn" onclick="goTo(6)">Review &amp; Pay →</button></div>
     </div>
-
-    <!-- ── S6: Review ── -->
     <div class="screen" id="s6">
       <div class="top-bar">
         <button class="back-btn" onclick="goTo(5)">←</button>
@@ -797,10 +711,7 @@ body {
           <div class="rv-total"><span>Total</span><span id="rvTotal">$26.50</span></div>
         </div>
         <div class="payment-card">
-          <div class="pc-left">
-            <span>💳 Visa</span>
-            <span class="pc-dots">····  4242</span>
-          </div>
+          <div class="pc-left"><span>💳 Visa</span><span class="pc-dots">····  4242</span></div>
           <span class="pc-change">Change</span>
         </div>
         <div style="padding:0 20px">
@@ -809,30 +720,18 @@ body {
         </div>
       </div>
     </div>
-
-    <!-- ── S7: Confirmation ── -->
     <div class="screen" id="s7">
       <div class="confirm-screen">
         <div class="confirm-sent">✦ Sent.</div>
         <div class="confirm-body">Your gift is on its way<br>to Alex.</div>
-        <div class="confirm-thumb">
-          <div class="confirm-chip">☕ Starbucks</div>
-        </div>
+        <div class="confirm-thumb"><div class="confirm-chip">☕ Starbucks</div></div>
         <div class="confirm-actions">
-          <div class="confirm-action" onclick="switchFlow('recipient')">
-            <span>View as recipient →</span><span class="ca-arrow">→</span>
-          </div>
-          <div class="confirm-action" onclick="goTo(0)">
-            <span>Send another gift</span><span class="ca-arrow">→</span>
-          </div>
-          <div class="confirm-action">
-            <span>View gift status</span><span class="ca-arrow">→</span>
-          </div>
+          <div class="confirm-action" onclick="switchFlow('recipient')"><span>View as recipient →</span><span class="ca-arrow">→</span></div>
+          <div class="confirm-action" onclick="goTo(0)"><span>Send another gift</span><span class="ca-arrow">→</span></div>
+          <div class="confirm-action"><span>View gift status</span><span class="ca-arrow">→</span></div>
         </div>
       </div>
     </div>
-
-    <!-- ── R0: Recipient Landing ── -->
     <div class="screen" id="r0">
       <div class="r-landing">
         <div class="r-badge">☕ Starbucks Gift</div>
@@ -843,8 +742,6 @@ body {
         <button class="r-open-btn" onclick="goToR(1)">Open your gift →</button>
       </div>
     </div>
-
-    <!-- ── R1: Card Reveal ── -->
     <div class="screen" id="r1">
       <div class="pb-80">
         <div class="r-card-wrap">
@@ -864,8 +761,6 @@ body {
         <button class="r-reveal-btn" onclick="goToR(2)">Reveal gift →</button>
       </div>
     </div>
-
-    <!-- ── R2: Redeemed ── -->
     <div class="screen" id="r2">
       <div class="r-redeemed">
         <div class="r-amount-big">$25</div>
@@ -879,304 +774,57 @@ body {
         <div class="r-thankyou-link" onclick="alert('Opens a thank-you note form')">Send a thank you to Sarah ✉️</div>
       </div>
     </div>
-
-  </div><!-- /screen-container -->
-</div><!-- /phone -->
-
+  </div>
+</div>
 <div class="nav-bar">
   <button class="nav-btn" id="prevBtn" onclick="prev()">← Prev</button>
   <button class="nav-btn" id="nextBtn" onclick="next()">Next →</button>
 </div>
-
 <script>
-// ── Data ──────────────────────────────────────────────
-const OCCASIONS = [
-  {slug:'birthday',    label:'Birthday',        emoji:'🎂'},
-  {slug:'graduation',  label:'Graduation',      emoji:'🎓'},
-  {slug:'celebration', label:'Celebration',     emoji:'🥂'},
-  {slug:'thank-you',   label:'Thank You',       emoji:'🙏'},
-  {slug:'thinking',    label:'Thinking of You', emoji:'🌸'},
-  {slug:'just-because',label:'Just Because',    emoji:'✨'},
-];
-
-const REC_BRANDS = [
-  {name:'Starbucks',    emoji:'☕'},
-  {name:'DoorDash',     emoji:'🍕'},
-  {name:'Uber Eats',    emoji:'🛵'},
-  {name:'1-800-Flowers',emoji:'💐'},
-];
-
-const ALL_BRANDS = [
-  {name:'Amazon',    emoji:'📦'}, {name:'Apple',      emoji:'🍎'},
-  {name:'Nordstrom', emoji:'🛍️'}, {name:'Target',     emoji:'🎯'},
-  {name:'Sephora',   emoji:'💄'}, {name:'Whole Foods',emoji:'🥑'},
-  {name:'Netflix',   emoji:'🎬'}, {name:'Nike',       emoji:'👟'},
-];
-
-const AMOUNTS = [15, 25, 50, 100];
-const DESIGNS = ['card-d0','card-d1','card-d2','card-d3'];
-const DESIGN_COLORS = [
-  {txt:'var(--ink)',             bg:'rgba(199,90,63,0.1)'},
-  {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
-  {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
-  {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
-];
-const SIG_FONTS = [
-  {family:"'Caveat', cursive",                    label:'Casual'},
-  {family:"'Dancing Script', cursive",            label:'Elegant'},
-  {family:"'Cormorant Garamond', Georgia, serif", label:'Literary'},
-  {family:'Georgia, serif',                       label:'Classic'},
-];
-
-// ── State ─────────────────────────────────────────────
-let flow = 'sender', sScreen = 0, rScreen = 0;
-let selOccasion = OCCASIONS[3], selBrand = REC_BRANDS[0];
-let selDesign = 1, selAmount = 25, selSigFont = 0;
-
-// ── Build UI ──────────────────────────────────────────
-function buildAll() {
-  buildOccasions();
-  buildBrands();
-  buildDesignDots();
-  buildAmountChips();
-  buildSigFonts();
-  initCanvas();
-  document.getElementById('msgInput').addEventListener('input', updateCharCount);
-}
-
-function buildOccasions() {
-  document.getElementById('occasionGrid').innerHTML = OCCASIONS.map(o => `
-    <div class="occasion-card ${o===selOccasion?'selected':''}" onclick="pickOccasion('${o.slug}')">
-      <div class="occasion-emoji">${o.emoji}</div>
-      <div class="occasion-label">${o.label}</div>
-    </div>`).join('');
-}
-
-function buildBrands() {
-  document.getElementById('recBrands').innerHTML = REC_BRANDS.map((b,i) => `
-    <div class="brand-pill ${b===selBrand?'selected':''}" onclick="pickRecBrand(${i})">
-      <div class="chk">✓</div>
-      <span class="bp-emoji">${b.emoji}</span>
-      <span class="bp-name">${b.name}</span>
-    </div>`).join('');
-
-  document.getElementById('allBrands').innerHTML = ALL_BRANDS.map(b => `
-    <div class="brand-row-tile" onclick="pickAllBrand(this,'${b.name}','${b.emoji}')">
-      <div class="chk">✓</div>
-      <span class="brt-emoji">${b.emoji}</span>
-      <span class="brt-name">${b.name}</span>
-    </div>`).join('');
-}
-
-function buildDesignDots() {
-  document.getElementById('cardDots').innerHTML = DESIGNS.map((_,i) => `
-    <div class="card-dot ${i===selDesign?'active':''}" onclick="pickDesign(${i})"></div>`).join('');
-  applyDesign();
-}
-
-function buildAmountChips() {
-  document.getElementById('amountChips').innerHTML = AMOUNTS.map(a => `
-    <div class="chip ${a===selAmount?'selected':''}" onclick="pickAmount(${a},this)">$${a}</div>`).join('')
-    + `<div class="chip" onclick="pickCustom(this)">Custom</div>`;
-}
-
-function buildSigFonts() {
-  document.getElementById('sigFonts').innerHTML = SIG_FONTS.map((f,i) => `
-    <div class="sig-font-opt ${i===selSigFont?'selected':''}" onclick="pickSigFont(${i},this)">
-      <span class="sf-name" style="font-family:${f.family}">Sarah</span>
-      <span class="sf-label">${f.label}</span>
-    </div>`).join('');
-}
-
-function updateCharCount() {
-  const n = document.getElementById('msgInput').value.length;
-  document.getElementById('charCount').textContent = `${n} / 300`;
-  document.getElementById('charCount').style.color = n > 270 ? 'var(--terra)' : 'var(--muted)';
-}
-
-// ── Interactions ──────────────────────────────────────
-function pickOccasion(slug) {
-  selOccasion = OCCASIONS.find(o => o.slug === slug);
-  buildOccasions();
-  document.getElementById('s1Title').textContent = selOccasion.label;
-  document.getElementById('recLabel').textContent = `Recommended for ${selOccasion.label}`;
-  document.getElementById('cpOccasion').textContent = selOccasion.label;
-  goTo(1);
-}
-
-function pickRecBrand(i) {
-  selBrand = REC_BRANDS[i];
-  refreshBrandSelections();
-}
-function pickAllBrand(el, name, emoji) {
-  selBrand = {name, emoji};
-  refreshBrandSelections();
-}
-function refreshBrandSelections() {
-  document.querySelectorAll('.brand-pill').forEach((el,i) =>
-    el.classList.toggle('selected', REC_BRANDS[i] === selBrand));
-  document.querySelectorAll('.brand-row-tile').forEach((el,i) =>
-    el.classList.toggle('selected', ALL_BRANDS[i] && ALL_BRANDS[i].name === selBrand.name));
-  document.getElementById('s2Title').textContent = selBrand.name;
-  document.getElementById('cpBrand').textContent = `${selBrand.emoji} ${selBrand.name}`;
-  document.getElementById('rvBrand').textContent = selBrand.name;
-}
-
-function pickDesign(i) {
-  selDesign = i;
-  document.querySelectorAll('.card-dot').forEach((d,j) => d.classList.toggle('active', j===i));
-  applyDesign();
-}
-function applyDesign() {
-  const card = document.getElementById('cardPreview');
-  card.className = 'card-preview ' + DESIGNS[selDesign];
-  const txt = document.getElementById('cpOccasion');
-  if (txt) txt.style.color = DESIGN_COLORS[selDesign].txt;
-}
-
-function pickAmount(a, el) {
-  selAmount = a;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  const t = (a + 1.5).toFixed(2);
-  document.getElementById('rvAmt').textContent = `$${a}.00`;
-  document.getElementById('rvGift').textContent = `$${a}.00`;
-  document.getElementById('rvTotal').textContent = `$${t}`;
-  document.getElementById('sendBtn').textContent = `Send gift $${t} →`;
-}
-function pickCustom(el) {
-  const v = prompt('Enter amount ($5–$500):');
-  if (v && !isNaN(v) && +v >= 5 && +v <= 500) pickAmount(+v, el);
-}
-
-function setSigTab(mode, btn) {
-  document.querySelectorAll('.sig-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.sig-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
-  if (mode === 'draw') initCanvas();
-}
-function pickSigFont(i, el) {
-  selSigFont = i;
-  document.querySelectorAll('.sig-font-opt').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-}
-function pickInitial(el) {
-  document.querySelectorAll('.initial-opt').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function pickDelivery(method) {
-  ['sms','email','link'].forEach(m => document.getElementById('d'+m.charAt(0).toUpperCase()+m.slice(1)).classList.remove('selected'));
-  document.getElementById('d'+method.charAt(0).toUpperCase()+method.slice(1)).classList.add('selected');
-  document.getElementById('smsField').style.display = method==='sms' ? 'block' : 'none';
-  document.getElementById('emailField').style.display = method==='email' ? 'block' : 'none';
-}
-function pickWhen(el) {
-  document.querySelectorAll('.when-opt').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-let envOpen = false;
-function tapEnvelope() {
-  if (envOpen) return;
-  envOpen = true;
-  document.getElementById('envWrap').classList.add('opened');
-  setTimeout(() => {
-    document.getElementById('envWrap').classList.remove('opened');
-    envOpen = false;
-  }, 2400);
-}
-
-// ── Canvas ────────────────────────────────────────────
-let ctx, drawing = false, lx = 0, ly = 0, canvasInited = false;
-
-function initCanvas() {
-  if (canvasInited) return;
-  const c = document.getElementById('sigCanvas');
-  const dpr = window.devicePixelRatio || 1;
-  const w = c.parentElement.clientWidth || 295;
-  c.width = w * dpr; c.height = 90 * dpr;
-  c.style.width = w + 'px'; c.style.height = '90px';
-  ctx = c.getContext('2d');
-  ctx.scale(dpr, dpr);
-  ctx.strokeStyle = '#1A1A1A'; ctx.lineWidth = 2;
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  c.addEventListener('pointerdown', e => { drawing=true; [lx,ly]=pos(c,e); });
-  c.addEventListener('pointermove', e => {
-    if (!drawing) return;
-    const [x,y] = pos(c,e);
-    ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(x,y); ctx.stroke();
-    [lx,ly]=[x,y];
-  });
-  c.addEventListener('pointerup', ()=>drawing=false);
-  c.addEventListener('pointerleave', ()=>drawing=false);
-  canvasInited = true;
-}
-function pos(c,e) {
-  const r = c.getBoundingClientRect();
-  return [e.clientX-r.left, e.clientY-r.top];
-}
-function clearSig() { if(ctx) ctx.clearRect(0,0,9999,9999); }
-
-// ── Navigation ────────────────────────────────────────
-const SENDER = ['s0','s1','s2','s3','s4','s5','s6','s7'];
-const SENDER_NAMES = ['Home','Brands','Amount','Personalise','Delivery','Preview','Review','Sent ✓'];
-const RECIPIENT = ['r0','r1','r2'];
-const RECIPIENT_NAMES = ['Envelope','Card','Redeemed'];
-
-function goTo(i) {
-  const from = SENDER[sScreen], to = SENDER[i];
-  document.getElementById(from).classList.remove('active');
-  document.getElementById(to).classList.add('active');
-  sScreen = i;
-  refresh();
-}
-
-function goToR(i) {
-  const from = RECIPIENT[rScreen], to = RECIPIENT[i];
-  document.getElementById(from).classList.remove('active');
-  document.getElementById(to).classList.add('active');
-  rScreen = i;
-  refresh();
-}
-
-function switchFlow(f) {
-  if (flow === f) return;
-  const from = flow==='sender' ? SENDER[sScreen] : RECIPIENT[rScreen];
-  flow = f;
-  const to = flow==='sender' ? SENDER[sScreen] : RECIPIENT[rScreen];
-  document.getElementById(from).classList.remove('active');
-  document.getElementById(to).classList.add('active');
-  document.getElementById('btnSender').classList.toggle('active', f==='sender');
-  document.getElementById('btnRecipient').classList.toggle('active', f==='recipient');
-  refresh();
-}
-
-function prev() {
-  if (flow==='sender' && sScreen > 0) goTo(sScreen-1);
-  else if (flow==='recipient' && rScreen > 0) goToR(rScreen-1);
-}
-function next() {
-  if (flow==='sender' && sScreen < SENDER.length-1) goTo(sScreen+1);
-  else if (flow==='recipient' && rScreen < RECIPIENT.length-1) goToR(rScreen+1);
-}
-
-function refresh() {
-  const isSender = flow === 'sender';
-  const idx = isSender ? sScreen : rScreen;
-  const names = isSender ? SENDER_NAMES : RECIPIENT_NAMES;
-  const total = isSender ? SENDER.length : RECIPIENT.length;
-  document.getElementById('screenInfo').textContent = `${names[idx]} · ${idx+1} of ${total}`;
-  document.getElementById('prevBtn').disabled = idx === 0;
-  document.getElementById('nextBtn').disabled = idx === total-1;
-  // Status bar colour for recipient landing
-  const sb = document.getElementById('statusBar');
-  const dark = !isSender && idx === 0;
-  sb.style.background = dark ? '#1A2638' : 'var(--paper)';
-  sb.style.color = dark ? 'white' : 'var(--ink)';
-}
-
+const OCCASIONS=[{slug:'birthday',label:'Birthday',emoji:'🎂'},{slug:'graduation',label:'Graduation',emoji:'🎓'},{slug:'celebration',label:'Celebration',emoji:'🥂'},{slug:'thank-you',label:'Thank You',emoji:'🙏'},{slug:'thinking',label:'Thinking of You',emoji:'🌸'},{slug:'just-because',label:'Just Because',emoji:'✨'}];
+const REC_BRANDS=[{name:'Starbucks',emoji:'☕'},{name:'DoorDash',emoji:'🍕'},{name:'Uber Eats',emoji:'🛵'},{name:'1-800-Flowers',emoji:'💐'}];
+const ALL_BRANDS=[{name:'Amazon',emoji:'📦'},{name:'Apple',emoji:'🍎'},{name:'Nordstrom',emoji:'🛍️'},{name:'Target',emoji:'🎯'},{name:'Sephora',emoji:'💄'},{name:'Whole Foods',emoji:'🥑'},{name:'Netflix',emoji:'🎬'},{name:'Nike',emoji:'👟'}];
+const AMOUNTS=[15,25,50,100];
+const DESIGNS=['card-d0','card-d1','card-d2','card-d3'];
+const DESIGN_COLORS=[{txt:'var(--ink)'},{txt:'rgba(255,255,255,0.9)'},{txt:'rgba(255,255,255,0.9)'},{txt:'rgba(255,255,255,0.9)'}];
+const SIG_FONTS=[{family:"'Caveat', cursive",label:'Casual'},{family:"'Dancing Script', cursive",label:'Elegant'},{family:"'Cormorant Garamond', Georgia, serif",label:'Literary'},{family:'Georgia, serif',label:'Classic'}];
+let flow='sender',sScreen=0,rScreen=0,selOccasion=OCCASIONS[3],selBrand=REC_BRANDS[0],selDesign=1,selAmount=25,selSigFont=0;
+function buildAll(){buildOccasions();buildBrands();buildDesignDots();buildAmountChips();buildSigFonts();initCanvas();document.getElementById('msgInput').addEventListener('input',updateCharCount);}
+function buildOccasions(){document.getElementById('occasionGrid').innerHTML=OCCASIONS.map(o=>`<div class="occasion-card ${o===selOccasion?'selected':''}" onclick="pickOccasion('${o.slug}')"><div class="occasion-emoji">${o.emoji}</div><div class="occasion-label">${o.label}</div></div>`).join('');}
+function buildBrands(){document.getElementById('recBrands').innerHTML=REC_BRANDS.map((b,i)=>`<div class="brand-pill ${b===selBrand?'selected':''}" onclick="pickRecBrand(${i})"><div class="chk">✓</div><span class="bp-emoji">${b.emoji}</span><span class="bp-name">${b.name}</span></div>`).join('');document.getElementById('allBrands').innerHTML=ALL_BRANDS.map(b=>`<div class="brand-row-tile" onclick="pickAllBrand(this,'${b.name}','${b.emoji}')"><div class="chk">✓</div><span class="brt-emoji">${b.emoji}</span><span class="brt-name">${b.name}</span></div>`).join('');}
+function buildDesignDots(){document.getElementById('cardDots').innerHTML=DESIGNS.map((_,i)=>`<div class="card-dot ${i===selDesign?'active':''}" onclick="pickDesign(${i})"></div>`).join('');applyDesign();}
+function buildAmountChips(){document.getElementById('amountChips').innerHTML=AMOUNTS.map(a=>`<div class="chip ${a===selAmount?'selected':''}" onclick="pickAmount(${a},this)">$${a}</div>`).join('')+`<div class="chip" onclick="pickCustom(this)">Custom</div>`;}
+function buildSigFonts(){document.getElementById('sigFonts').innerHTML=SIG_FONTS.map((f,i)=>`<div class="sig-font-opt ${i===selSigFont?'selected':''}" onclick="pickSigFont(${i},this)"><span class="sf-name" style="font-family:${f.family}">Sarah</span><span class="sf-label">${f.label}</span></div>`).join('');}
+function updateCharCount(){const n=document.getElementById('msgInput').value.length;document.getElementById('charCount').textContent=`${n} / 300`;document.getElementById('charCount').style.color=n>270?'#F97316':'#A0622A';}
+function pickOccasion(slug){selOccasion=OCCASIONS.find(o=>o.slug===slug);buildOccasions();document.getElementById('s1Title').textContent=selOccasion.label;document.getElementById('recLabel').textContent=`Recommended for ${selOccasion.label}`;document.getElementById('cpOccasion').textContent=selOccasion.label;goTo(1);}
+function pickRecBrand(i){selBrand=REC_BRANDS[i];refreshBrandSelections();}
+function pickAllBrand(el,name,emoji){selBrand={name,emoji};refreshBrandSelections();}
+function refreshBrandSelections(){document.querySelectorAll('.brand-pill').forEach((el,i)=>el.classList.toggle('selected',REC_BRANDS[i]===selBrand));document.querySelectorAll('.brand-row-tile').forEach((el,i)=>el.classList.toggle('selected',ALL_BRANDS[i]&&ALL_BRANDS[i].name===selBrand.name));document.getElementById('s2Title').textContent=selBrand.name;document.getElementById('cpBrand').textContent=`${selBrand.emoji} ${selBrand.name}`;document.getElementById('rvBrand').textContent=selBrand.name;}
+function pickDesign(i){selDesign=i;document.querySelectorAll('.card-dot').forEach((d,j)=>d.classList.toggle('active',j===i));applyDesign();}
+function applyDesign(){const card=document.getElementById('cardPreview');card.className='card-preview '+DESIGNS[selDesign];const txt=document.getElementById('cpOccasion');if(txt)txt.style.color=DESIGN_COLORS[selDesign].txt;}
+function pickAmount(a,el){selAmount=a;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');const t=(a+1.5).toFixed(2);document.getElementById('rvAmt').textContent=`$${a}.00`;document.getElementById('rvGift').textContent=`$${a}.00`;document.getElementById('rvTotal').textContent=`$${t}`;document.getElementById('sendBtn').textContent=`Send gift $${t} →`;}
+function pickCustom(el){const v=prompt('Enter amount ($5–$500):');if(v&&!isNaN(v)&&+v>=5&&+v<=500)pickAmount(+v,el);}
+function setSigTab(mode,btn){document.querySelectorAll('.sig-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.sig-panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel'+mode.charAt(0).toUpperCase()+mode.slice(1)).classList.add('active');if(mode==='draw')initCanvas();}
+function pickSigFont(i,el){selSigFont=i;document.querySelectorAll('.sig-font-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+function pickInitial(el){document.querySelectorAll('.initial-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+function pickDelivery(method){['sms','email','link'].forEach(m=>document.getElementById('d'+m.charAt(0).toUpperCase()+m.slice(1)).classList.remove('selected'));document.getElementById('d'+method.charAt(0).toUpperCase()+method.slice(1)).classList.add('selected');document.getElementById('smsField').style.display=method==='sms'?'block':'none';document.getElementById('emailField').style.display=method==='email'?'block':'none';}
+function pickWhen(el){document.querySelectorAll('.when-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+let envOpen=false;
+function tapEnvelope(){if(envOpen)return;envOpen=true;document.getElementById('envWrap').classList.add('opened');setTimeout(()=>{document.getElementById('envWrap').classList.remove('opened');envOpen=false;},2400);}
+let ctx,drawing=false,lx=0,ly=0,canvasInited=false;
+function initCanvas(){if(canvasInited)return;const c=document.getElementById('sigCanvas');const dpr=window.devicePixelRatio||1;const w=c.parentElement.clientWidth||295;c.width=w*dpr;c.height=90*dpr;c.style.width=w+'px';c.style.height='90px';ctx=c.getContext('2d');ctx.scale(dpr,dpr);ctx.strokeStyle='#1A0A00';ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';c.addEventListener('pointerdown',e=>{drawing=true;[lx,ly]=pos(c,e);});c.addEventListener('pointermove',e=>{if(!drawing)return;const[x,y]=pos(c,e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(x,y);ctx.stroke();[lx,ly]=[x,y];});c.addEventListener('pointerup',()=>drawing=false);c.addEventListener('pointerleave',()=>drawing=false);canvasInited=true;}
+function pos(c,e){const r=c.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];}
+function clearSig(){if(ctx)ctx.clearRect(0,0,9999,9999);}
+const SENDER=['s0','s1','s2','s3','s4','s5','s6','s7'];
+const SENDER_NAMES=['Home','Brands','Amount','Personalise','Delivery','Preview','Review','Sent ✓'];
+const RECIPIENT=['r0','r1','r2'];
+const RECIPIENT_NAMES=['Envelope','Card','Redeemed'];
+function goTo(i){const from=SENDER[sScreen],to=SENDER[i];document.getElementById(from).classList.remove('active');document.getElementById(to).classList.add('active');sScreen=i;refresh();}
+function goToR(i){const from=RECIPIENT[rScreen],to=RECIPIENT[i];document.getElementById(from).classList.remove('active');document.getElementById(to).classList.add('active');rScreen=i;refresh();}
+function switchFlow(f){if(flow===f)return;const from=flow==='sender'?SENDER[sScreen]:RECIPIENT[rScreen];flow=f;const to=flow==='sender'?SENDER[sScreen]:RECIPIENT[rScreen];document.getElementById(from).classList.remove('active');document.getElementById(to).classList.add('active');document.getElementById('btnSender').classList.toggle('active',f==='sender');document.getElementById('btnRecipient').classList.toggle('active',f==='recipient');refresh();}
+function prev(){if(flow==='sender'&&sScreen>0)goTo(sScreen-1);else if(flow==='recipient'&&rScreen>0)goToR(rScreen-1);}
+function next(){if(flow==='sender'&&sScreen<SENDER.length-1)goTo(sScreen+1);else if(flow==='recipient'&&rScreen<RECIPIENT.length-1)goToR(rScreen+1);}
+function refresh(){const isSender=flow==='sender';const idx=isSender?sScreen:rScreen;const names=isSender?SENDER_NAMES:RECIPIENT_NAMES;const total=isSender?SENDER.length:RECIPIENT.length;document.getElementById('screenInfo').textContent=`${names[idx]} · ${idx+1} of ${total}`;document.getElementById('prevBtn').disabled=idx===0;document.getElementById('nextBtn').disabled=idx===total-1;const sb=document.getElementById('statusBar');const dark=!isSender&&idx===0;sb.style.background=dark?'#451A03':'#FFF7EE';sb.style.color=dark?'white':'#1A0A00';}
 buildAll();
 </script>
 </body>
