@@ -9,16 +9,16 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --paper: #FBF8F3;
-  --ink: #1A1A1A;
-  --terra: #C75A3F;
-  --muted: #6B6459;
-  --border: #E8E3DB;
+  --paper: #FFF7EE;
+  --ink: #1A0A00;
+  --terra: #F97316;
+  --muted: #A0622A;
+  --border: #FFD5A8;
   --white: #FFFFFF;
 }
 body {
   min-height: 100vh;
-  background: #161412;
+  background: #1A0900;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +66,7 @@ body {
 .flow-btn.active {
   background: var(--terra);
   color: white;
-  box-shadow: 0 2px 8px rgba(199,90,63,0.4);
+  box-shadow: 0 2px 8px rgba(249,115,22,0.4);
 }
 .screen-info {
   color: rgba(255,255,255,0.25);
@@ -79,10 +79,10 @@ body {
   width: 375px;
   height: 780px;
   border-radius: 50px;
-  border: 9px solid #2A2826;
+  border: 9px solid #2A1200;
   overflow: hidden;
   background: var(--paper);
-  box-shadow: 0 0 0 1px #3A3632, 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 1px #3A1800, 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -257,14 +257,14 @@ body {
   justify-content: flex-end; padding: 14px;
   transition: background 0.3s;
 }
-.card-d0 { background: linear-gradient(160deg,#FBF8F3 0%,#EFE4D4 100%); border: 1.5px solid #DDD0BC; }
-.card-d1 { background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%); }
-.card-d2 { background: linear-gradient(140deg,#7A9E7E 0%,#4F7855 100%); }
-.card-d3 { background: linear-gradient(140deg,#2C3E5A 0%,#1A2638 100%); }
+.card-d0 { background: linear-gradient(160deg,#FFF7EE 0%,#FFE4C4 100%); border: 1.5px solid #FFD5A8; }
+.card-d1 { background: linear-gradient(140deg,#F97316 0%,#EA580C 100%); }
+.card-d2 { background: linear-gradient(140deg,#FBBF24 0%,#4F7855 100%); }
+.card-d3 { background: linear-gradient(140deg,#92400E 0%,#451A03 100%); }
 .card-corner-art {
   position: absolute; top: 0; right: 0;
   width: 110px; height: 110px;
-  background: radial-gradient(circle at 100% 0%, rgba(199,90,63,0.1) 0%, transparent 65%);
+  background: radial-gradient(circle at 100% 0%, rgba(249,115,22,0.1) 0%, transparent 65%);
 }
 .card-occasion-txt {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -336,7 +336,7 @@ body {
   border-radius: 10px; background: white;
   cursor: pointer; text-align: center; transition: all 0.15s;
 }
-.sig-font-opt.selected { border-color: var(--terra); background: rgba(199,90,63,0.04); }
+.sig-font-opt.selected { border-color: var(--terra); background: rgba(249,115,22,0.04); }
 .sig-font-opt .sf-name { font-size: 19px; display: block; margin-bottom: 2px; }
 .sig-font-opt .sf-label { font-size: 10px; color: var(--muted); }
 .canvas-wrap {
@@ -367,7 +367,7 @@ body {
   padding: 14px; cursor: pointer; background: white;
   transition: all 0.15s;
 }
-.d-opt.selected { border-color: var(--terra); background: rgba(199,90,63,0.02); }
+.d-opt.selected { border-color: var(--terra); background: rgba(249,115,22,0.02); }
 .d-opt-head { display: flex; align-items: center; gap: 10px; }
 .d-icon { font-size: 20px; }
 .d-title { font-size: 14px; font-weight: 600; color: var(--ink); }
@@ -402,12 +402,12 @@ body {
 }
 .env-back {
   position: absolute; inset: 0;
-  background: linear-gradient(160deg, #FBF8F3 0%, #EFE4D4 100%);
+  background: linear-gradient(160deg, #FFF7EE 0%, #FFE4C4 100%);
   border-radius: 16px;
 }
 .env-flap {
   position: absolute; top: 0; left: 0; right: 0; height: 55%;
-  background: linear-gradient(175deg, #F2E8D8 0%, #E8D9C2 100%);
+  background: linear-gradient(175deg, #FFE0B2 0%, #FFBA7A 100%);
   clip-path: polygon(0 0, 50% 58%, 100% 0);
   transform-origin: top;
   transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
@@ -461,7 +461,7 @@ body {
 .confirm-body { font-size: 15px; color: var(--muted); margin-bottom: 30px; line-height: 1.5; }
 .confirm-thumb {
   width: 160px; aspect-ratio: 3/2; border-radius: 12px;
-  background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%);
+  background: linear-gradient(140deg,#F97316 0%,#EA580C 100%);
   margin-bottom: 30px; display: flex; align-items: flex-end;
   justify-content: flex-end; padding: 8px; overflow: hidden;
 }
@@ -478,7 +478,7 @@ body {
 .ca-arrow { color: var(--muted); }
 
 /* ── R0: Recipient Landing ── */
-#r0 { background: #1A2638; }
+#r0 { background: #451A03; }
 .r-landing {
   height: 100%; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
@@ -504,7 +504,7 @@ body {
 }
 .r-hint { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 44px; }
 .r-open-btn {
-  padding: 15px 44px; background: white; color: #1A2638;
+  padding: 15px 44px; background: white; color: #451A03;
   border: none; border-radius: 100px;
   font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
   cursor: pointer; transition: opacity 0.15s;
@@ -515,10 +515,10 @@ body {
 .r-card-wrap { padding: 18px 20px 14px; }
 .r-full-card {
   border-radius: 18px; aspect-ratio: 3/2; overflow: hidden;
-  background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%);
+  background: linear-gradient(140deg,#F97316 0%,#EA580C 100%);
   padding: 16px; display: flex; flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 10px 36px rgba(199,90,63,0.3);
+  box-shadow: 0 10px 36px rgba(249,115,22,0.3);
 }
 .r-card-occasion {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -572,7 +572,7 @@ body {
 }
 .r-copy-btn:hover { background: var(--terra); color: white; }
 .r-redeem-brand-btn {
-  width: 100%; padding: 15px; background: #1A2638; color: white;
+  width: 100%; padding: 15px; background: #451A03; color: white;
   border: none; border-radius: 14px;
   font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
   cursor: pointer; margin-bottom: 16px;
@@ -916,7 +916,7 @@ const ALL_BRANDS = [
 const AMOUNTS = [15, 25, 50, 100];
 const DESIGNS = ['card-d0','card-d1','card-d2','card-d3'];
 const DESIGN_COLORS = [
-  {txt:'var(--ink)',             bg:'rgba(199,90,63,0.1)'},
+  {txt:'var(--ink)',             bg:'rgba(249,115,22,0.1)'},
   {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
   {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
   {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
@@ -1100,7 +1100,7 @@ function initCanvas() {
   c.style.width = w + 'px'; c.style.height = '90px';
   ctx = c.getContext('2d');
   ctx.scale(dpr, dpr);
-  ctx.strokeStyle = '#1A1A1A'; ctx.lineWidth = 2;
+  ctx.strokeStyle = '#1A0A00'; ctx.lineWidth = 2;
   ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   c.addEventListener('pointerdown', e => { drawing=true; [lx,ly]=pos(c,e); });
   c.addEventListener('pointermove', e => {
@@ -1173,7 +1173,7 @@ function refresh() {
   // Status bar colour for recipient landing
   const sb = document.getElementById('statusBar');
   const dark = !isSender && idx === 0;
-  sb.style.background = dark ? '#1A2638' : 'var(--paper)';
+  sb.style.background = dark ? '#451A03' : 'var(--paper)';
   sb.style.color = dark ? 'white' : 'var(--ink)';
 }
 
