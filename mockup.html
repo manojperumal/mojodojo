@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pensive Post — Interactive Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Caveat:wght@500&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --paper: #FBF8F3;
+  --ink: #1A1A1A;
+  --terra: #C75A3F;
+  --muted: #6B6459;
+  --border: #E8E3DB;
+  --white: #FFFFFF;
+}
+body {
+  min-height: 100vh;
+  background: #161412;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--ink);
+  padding: 28px 16px 40px;
+  gap: 20px;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 420px;
+}
+.app-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.04em;
+}
+.flow-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  padding: 3px;
+  gap: 2px;
+}
+.flow-btn {
+  padding: 8px 22px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flow-btn.active {
+  background: var(--terra);
+  color: white;
+  box-shadow: 0 2px 8px rgba(199,90,63,0.4);
+}
+.screen-info {
+  color: rgba(255,255,255,0.25);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+
+/* ── Phone ── */
+.phone {
+  width: 375px;
+  height: 780px;
+  border-radius: 50px;
+  border: 9px solid #2A2826;
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px #3A3632, 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.status-bar {
+  padding: 14px 28px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  transition: background 0.3s, color 0.3s;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  z-index: 10;
+}
+.status-time { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+.status-icons { font-size: 12px; opacity: 0.7; }
+
+.screen-container { flex: 1; position: relative; overflow: hidden; }
+.screen {
+  position: absolute; inset: 0;
+  background: var(--paper);
+  overflow-y: auto; overflow-x: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+  scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+.screen.active { opacity: 1; pointer-events: all; }
+
+/* ── Nav ── */
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.nav-btn {
+  padding: 9px 22px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.6);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.1); color: white; }
+.nav-btn:disabled { opacity: 0.2; cursor: default; }
+
+/* ── Shared ── */
+.top-bar {
+  padding: 10px 20px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.back-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%; border: none;
+  background: rgba(0,0,0,0.05);
+  cursor: pointer; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--ink);
+}
+.top-bar-label { font-size: 14px; font-weight: 500; color: var(--muted); }
+.wordmark {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--ink); padding: 14px 20px 10px;
+  letter-spacing: 0.02em;
+}
+.cta-wrap { padding: 12px 20px 20px; }
+.cta-btn {
+  width: 100%; padding: 15px;
+  background: var(--terra); color: white;
+  border: none; border-radius: 14px;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: opacity 0.15s; text-align: center;
+}
+.cta-btn:hover { opacity: 0.9; }
+.section-label {
+  padding: 14px 20px 8px;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted);
+}
+
+/* ── S0: Home ── */
+.greeting { padding: 22px 20px 18px; }
+.greeting h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 30px; font-weight: 600; line-height: 1.2; color: var(--ink);
+}
+.greeting p { font-size: 14px; color: var(--muted); margin-top: 5px; }
+.occasion-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; padding: 0 20px 24px;
+}
+.occasion-card {
+  background: white; border-radius: 18px; padding: 18px 12px;
+  cursor: pointer; border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: all 0.15s; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.occasion-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.occasion-card.selected { border-color: var(--terra); }
+.occasion-emoji { font-size: 34px; }
+.occasion-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+/* ── S1: Brand Picker ── */
+.search-wrap { padding: 12px 20px; }
+.search-input {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 14px;
+  background: white; color: var(--ink); outline: none;
+}
+.brands-row {
+  display: flex; gap: 10px;
+  padding: 0 20px 4px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.brands-row::-webkit-scrollbar { display: none; }
+.brand-pill {
+  flex-shrink: 0; background: white; border-radius: 14px;
+  padding: 12px 10px; width: 76px; text-align: center;
+  border: 2px solid transparent; cursor: pointer;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+  transition: all 0.15s; position: relative;
+}
+.brand-pill.selected { border-color: var(--terra); }
+.brand-pill .chk {
+  position: absolute; top: 4px; right: 4px;
+  width: 15px; height: 15px; background: var(--terra);
+  border-radius: 50%; color: white; font-size: 8px;
+  display: none; align-items: center; justify-content: center;
+}
+.brand-pill.selected .chk { display: flex; }
+.bp-emoji { font-size: 26px; display: block; margin-bottom: 4px; }
+.bp-name { font-size: 10px; color: var(--muted); line-height: 1.2; }
+.brands-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 20px 24px; }
+.brand-row-tile {
+  background: white; border-radius: 12px; padding: 13px;
+  cursor: pointer; border: 2px solid transparent;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: all 0.15s; display: flex; align-items: center; gap: 10px;
+  position: relative;
+}
+.brand-row-tile.selected { border-color: var(--terra); }
+.brand-row-tile .chk {
+  position: absolute; top: 5px; right: 5px;
+  width: 15px; height: 15px; background: var(--terra);
+  border-radius: 50%; color: white; font-size: 8px;
+  display: none; align-items: center; justify-content: center;
+}
+.brand-row-tile.selected .chk { display: flex; }
+.brt-emoji { font-size: 20px; }
+.brt-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+/* ── S2: Amount + Card ── */
+.card-preview {
+  margin: 14px 20px 0;
+  border-radius: 18px; aspect-ratio: 3/2;
+  position: relative; overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+  display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 14px;
+  transition: background 0.3s;
+}
+.card-d0 { background: linear-gradient(160deg,#FBF8F3 0%,#EFE4D4 100%); border: 1.5px solid #DDD0BC; }
+.card-d1 { background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%); }
+.card-d2 { background: linear-gradient(140deg,#7A9E7E 0%,#4F7855 100%); }
+.card-d3 { background: linear-gradient(140deg,#2C3E5A 0%,#1A2638 100%); }
+.card-corner-art {
+  position: absolute; top: 0; right: 0;
+  width: 110px; height: 110px;
+  background: radial-gradient(circle at 100% 0%, rgba(199,90,63,0.1) 0%, transparent 65%);
+}
+.card-occasion-txt {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px; font-style: italic; margin-bottom: 6px;
+}
+.card-brand-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(255,255,255,0.9); border-radius: 8px;
+  padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--ink);
+  align-self: flex-end; position: absolute; bottom: 12px; right: 12px;
+}
+.card-message-preview {
+  font-size: 11px; line-height: 1.4; opacity: 0.75; margin-bottom: 28px;
+  font-style: italic; max-width: 60%;
+}
+.card-sig-preview {
+  font-family: 'Caveat', cursive; font-size: 16px; opacity: 0.8;
+  border-top: 1px solid rgba(255,255,255,0.3); padding-top: 6px; width: 80px;
+}
+.card-dots {
+  display: flex; gap: 6px; justify-content: center;
+  margin: 12px 0 4px;
+}
+.card-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); cursor: pointer;
+  transition: all 0.2s;
+}
+.card-dot.active { background: var(--terra); transform: scale(1.4); }
+.amount-section { padding: 4px 20px 0; }
+.amount-heading { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+.chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 18px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: white;
+  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; color: var(--ink); transition: all 0.15s;
+}
+.chip.selected { background: var(--terra); border-color: var(--terra); color: white; }
+
+/* ── S3: Personalise ── */
+.field-wrap { padding: 0 20px; margin-bottom: 14px; }
+.field-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+.field-input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 14px;
+  background: white; color: var(--ink); outline: none;
+  transition: border-color 0.2s;
+}
+.field-input:focus { border-color: var(--terra); }
+.field-textarea { resize: none; height: 82px; line-height: 1.5; }
+.char-count { text-align: right; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.sig-tabs-row {
+  display: flex; border-bottom: 1px solid var(--border); margin: 0 20px 14px;
+}
+.sig-tab {
+  flex: 1; padding: 9px 0; border: none; background: none;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all 0.18s;
+}
+.sig-tab.active { color: var(--terra); border-bottom-color: var(--terra); }
+.sig-panel { display: none; padding: 0 20px 8px; }
+.sig-panel.active { display: block; }
+.sig-font-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sig-font-opt {
+  padding: 11px; border: 1.5px solid var(--border);
+  border-radius: 10px; background: white;
+  cursor: pointer; text-align: center; transition: all 0.15s;
+}
+.sig-font-opt.selected { border-color: var(--terra); background: rgba(199,90,63,0.04); }
+.sig-font-opt .sf-name { font-size: 19px; display: block; margin-bottom: 2px; }
+.sig-font-opt .sf-label { font-size: 10px; color: var(--muted); }
+.canvas-wrap {
+  border: 1.5px dashed var(--border); border-radius: 10px;
+  background: white; position: relative;
+}
+#sigCanvas { display: block; width: 100%; height: 90px; cursor: crosshair; touch-action: none; }
+.canvas-clear-btn {
+  position: absolute; bottom: 6px; right: 8px;
+  font-size: 11px; color: var(--muted); cursor: pointer;
+  border: none; background: none; font-family: 'Inter', sans-serif;
+}
+.initials-row { display: flex; gap: 10px; }
+.initial-opt {
+  width: 68px; height: 68px; border: 1.5px solid var(--border);
+  border-radius: 10px; background: white; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700; transition: all 0.15s;
+  font-family: 'Cormorant Garamond', Georgia, serif; color: var(--ink);
+}
+.initial-opt.circle { border-radius: 50%; }
+.initial-opt.selected { border-color: var(--terra); color: var(--terra); }
+
+/* ── S4: Delivery ── */
+.delivery-opts { padding: 14px 20px 0; display: flex; flex-direction: column; gap: 8px; }
+.d-opt {
+  border: 2px solid var(--border); border-radius: 14px;
+  padding: 14px; cursor: pointer; background: white;
+  transition: all 0.15s;
+}
+.d-opt.selected { border-color: var(--terra); background: rgba(199,90,63,0.02); }
+.d-opt-head { display: flex; align-items: center; gap: 10px; }
+.d-icon { font-size: 20px; }
+.d-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.d-sub { font-size: 11px; color: var(--muted); }
+.d-inp-wrap { margin-top: 10px; }
+.when-wrap { padding: 14px 20px 0; }
+.when-lbl { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+.when-opts { display: flex; gap: 8px; }
+.when-opt {
+  flex: 1; padding: 11px; border: 1.5px solid var(--border);
+  border-radius: 10px; background: white; text-align: center;
+  font-size: 13px; font-weight: 500; cursor: pointer; color: var(--ink); transition: all 0.15s;
+}
+.when-opt.selected { border-color: var(--terra); color: var(--terra); }
+
+/* ── S5: Preview ── */
+.preview-note { padding: 14px 20px 8px; font-size: 13px; color: var(--muted); }
+.sms-bubble-wrap { padding: 0 20px 16px; }
+.sms-bubble {
+  display: inline-block; background: #E5E5EA; border-radius: 16px 16px 16px 4px;
+  padding: 11px 14px; max-width: 85%;
+}
+.sms-from { font-size: 10px; color: #8E8E93; font-weight: 600; margin-bottom: 3px; }
+.sms-body { font-size: 13px; color: #1C1C1E; line-height: 1.4; }
+.sms-link { color: #0A84FF; }
+.envelope {
+  margin: 0 20px;
+  aspect-ratio: 3/2; border-radius: 16px;
+  background: white; border: 1.5px solid var(--border);
+  position: relative; overflow: hidden; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+}
+.env-back {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #FBF8F3 0%, #EFE4D4 100%);
+  border-radius: 16px;
+}
+.env-flap {
+  position: absolute; top: 0; left: 0; right: 0; height: 55%;
+  background: linear-gradient(175deg, #F2E8D8 0%, #E8D9C2 100%);
+  clip-path: polygon(0 0, 50% 58%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.env-logo {
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px; color: var(--muted); letter-spacing: 0.05em; white-space: nowrap;
+}
+.env-tap {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; font-size: 12px; color: var(--muted);
+  transition: opacity 0.3s;
+}
+.env-tap-icon { font-size: 26px; }
+.envelope.opened .env-flap { transform: rotateX(175deg); }
+.envelope.opened .env-tap { opacity: 0; }
+.preview-edit { display: block; text-align: center; font-size: 13px; color: var(--terra); padding: 14px 20px 4px; cursor: pointer; }
+
+/* ── S6: Review ── */
+.review-wrap { padding: 14px 20px; }
+.review-row {
+  display: flex; justify-content: space-between;
+  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+}
+.rv-lbl { color: var(--muted); }
+.rv-val { font-weight: 500; color: var(--ink); }
+.rv-divider { height: 1px; background: var(--ink); opacity: 0.08; margin: 4px 0; }
+.rv-total { display: flex; justify-content: space-between; padding: 12px 0; font-size: 16px; font-weight: 700; }
+.payment-card {
+  margin: 4px 20px 16px;
+  background: white; border: 1.5px solid var(--border); border-radius: 12px;
+  padding: 13px 16px; display: flex; align-items: center; justify-content: space-between;
+}
+.pc-left { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.pc-dots { font-size: 16px; letter-spacing: 1px; color: var(--muted); }
+.pc-change { font-size: 13px; color: var(--terra); }
+.terms-note { text-align: center; font-size: 11px; color: var(--muted); margin-top: 10px; }
+
+/* ── S7: Confirmation ── */
+.confirm-screen {
+  height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 24px; text-align: center;
+}
+.confirm-sent {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 54px; color: var(--ink); margin-bottom: 10px;
+}
+.confirm-body { font-size: 15px; color: var(--muted); margin-bottom: 30px; line-height: 1.5; }
+.confirm-thumb {
+  width: 160px; aspect-ratio: 3/2; border-radius: 12px;
+  background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%);
+  margin-bottom: 30px; display: flex; align-items: flex-end;
+  justify-content: flex-end; padding: 8px; overflow: hidden;
+}
+.confirm-chip {
+  background: rgba(255,255,255,0.9); border-radius: 6px;
+  padding: 3px 8px; font-size: 10px; font-weight: 600; color: var(--ink);
+}
+.confirm-actions { width: 100%; text-align: left; }
+.confirm-action {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px; cursor: pointer; color: var(--ink);
+}
+.ca-arrow { color: var(--muted); }
+
+/* ── R0: Recipient Landing ── */
+#r0 { background: #1A2638; }
+.r-landing {
+  height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 28px; text-align: center; color: white;
+}
+.r-badge {
+  background: rgba(255,255,255,0.12); border-radius: 100px;
+  padding: 6px 16px; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.04em; margin-bottom: 36px;
+}
+.r-headline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 34px; font-weight: 400; line-height: 1.2; margin-bottom: 8px;
+}
+.r-sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 44px; }
+.r-env-icon {
+  font-size: 58px; margin-bottom: 14px;
+  animation: breathe 2.2s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+.r-hint { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 44px; }
+.r-open-btn {
+  padding: 15px 44px; background: white; color: #1A2638;
+  border: none; border-radius: 100px;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.r-open-btn:hover { opacity: 0.92; }
+
+/* ── R1: Card Reveal ── */
+.r-card-wrap { padding: 18px 20px 14px; }
+.r-full-card {
+  border-radius: 18px; aspect-ratio: 3/2; overflow: hidden;
+  background: linear-gradient(140deg,#C75A3F 0%,#9C3A28 100%);
+  padding: 16px; display: flex; flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 36px rgba(199,90,63,0.3);
+}
+.r-card-occasion {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px; font-style: italic; color: rgba(255,255,255,0.9);
+}
+.r-card-footer { display: flex; align-items: flex-end; justify-content: space-between; }
+.r-card-msg-snip { font-size: 10px; color: rgba(255,255,255,0.65); font-style: italic; max-width: 55%; line-height: 1.4; }
+.r-card-chip {
+  background: rgba(255,255,255,0.92); border-radius: 8px;
+  padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--ink);
+}
+.r-message-wrap { padding: 0 20px 16px; }
+.r-from-lbl { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.r-msg-text { font-size: 15px; line-height: 1.65; color: var(--ink); margin-bottom: 14px; }
+.r-signature {
+  font-family: 'Caveat', cursive; font-size: 28px; color: var(--ink);
+  border-top: 1px solid var(--border); padding-top: 10px;
+}
+.r-reveal-btn {
+  margin: 0 20px 8px; width: calc(100% - 40px);
+  padding: 15px; background: var(--terra); color: white;
+  border: none; border-radius: 14px;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── R2: Redeemed ── */
+.r-redeemed {
+  padding: 36px 20px 20px; display: flex;
+  flex-direction: column; align-items: center; text-align: center;
+}
+.r-amount-big {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 52px; font-weight: 600; color: var(--ink); line-height: 1;
+}
+.r-brand-lbl { font-size: 14px; color: var(--muted); margin: 4px 0 28px; }
+.r-code-card {
+  width: 100%; background: white; border: 2px solid var(--border);
+  border-radius: 16px; padding: 22px 20px; margin-bottom: 14px;
+}
+.r-code-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+.r-code {
+  font-family: 'Courier New', monospace; font-size: 24px; font-weight: 700;
+  letter-spacing: 3px; color: var(--ink); margin-bottom: 14px;
+}
+.r-copy-btn {
+  padding: 8px 22px; border: 1.5px solid var(--terra);
+  border-radius: 100px; color: var(--terra); background: none;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.r-copy-btn:hover { background: var(--terra); color: white; }
+.r-redeem-brand-btn {
+  width: 100%; padding: 15px; background: #1A2638; color: white;
+  border: none; border-radius: 14px;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; margin-bottom: 16px;
+}
+.r-thankyou-link { font-size: 14px; color: var(--terra); cursor: pointer; padding: 6px; }
+
+.pb-80 { padding-bottom: 80px; }
+.sticky-cta {
+  position: sticky; bottom: 0;
+  background: linear-gradient(to top, var(--paper) 75%, transparent);
+  padding: 14px 20px 18px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="app-title">Pensive Post</div>
+  <div class="flow-toggle">
+    <button class="flow-btn active" id="btnSender" onclick="switchFlow('sender')">Sender Flow</button>
+    <button class="flow-btn" id="btnRecipient" onclick="switchFlow('recipient')">Recipient View</button>
+  </div>
+  <div class="screen-info" id="screenInfo">Home · 1 of 8</div>
+</div>
+
+<div class="phone">
+  <div class="status-bar" id="statusBar">
+    <span class="status-time">9:41</span>
+    <span class="status-icons">●●●  WiFi  🔋</span>
+  </div>
+  <div class="screen-container">
+
+    <!-- ── S0: Home ── -->
+    <div class="screen active" id="s0">
+      <div class="wordmark">Pensive Post</div>
+      <div class="greeting">
+        <h1>Good afternoon,<br>Alex.</h1>
+        <p>Who are you thinking of today?</p>
+      </div>
+      <div class="occasion-grid" id="occasionGrid"></div>
+    </div>
+
+    <!-- ── S1: Brand Picker ── -->
+    <div class="screen" id="s1">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goTo(0)">←</button>
+        <span class="top-bar-label" id="s1Title">Thank You</span>
+      </div>
+      <div class="pb-80">
+        <div class="search-wrap">
+          <input class="search-input" placeholder="🔍  Search brands" type="text">
+        </div>
+        <div class="section-label" id="recLabel">Recommended for Thank You</div>
+        <div class="brands-row" id="recBrands"></div>
+        <div class="section-label" style="margin-top:8px">All Brands</div>
+        <div class="brands-grid" id="allBrands"></div>
+      </div>
+      <div class="sticky-cta">
+        <button class="cta-btn" onclick="goTo(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── S2: Amount + Card Design ── -->
+    <div class="screen" id="s2">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goTo(1)">←</button>
+        <span class="top-bar-label" id="s2Title">Starbucks</span>
+      </div>
+      <div class="pb-80">
+        <div class="card-preview card-d1" id="cardPreview">
+          <div class="card-corner-art"></div>
+          <div class="card-occasion-txt" id="cpOccasion" style="color:rgba(255,255,255,0.9)">Thank You</div>
+          <div class="card-brand-chip" id="cpBrand">☕ Starbucks</div>
+        </div>
+        <div class="card-dots" id="cardDots"></div>
+        <div class="amount-section" style="padding-top:8px">
+          <div class="amount-heading">Amount</div>
+          <div class="chips-row" id="amountChips"></div>
+        </div>
+      </div>
+      <div class="sticky-cta">
+        <button class="cta-btn" onclick="goTo(3)">Personalise →</button>
+      </div>
+    </div>
+
+    <!-- ── S3: Personalise ── -->
+    <div class="screen" id="s3">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goTo(2)">←</button>
+        <span class="top-bar-label">Personalise</span>
+      </div>
+      <div class="pb-80" style="padding-top:14px">
+        <div class="field-wrap">
+          <div class="field-label">To</div>
+          <input class="field-input" id="toInput" type="text" value="Alex">
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Message</div>
+          <textarea class="field-input field-textarea" id="msgInput">Thanks for all your help on the project — really appreciated it. Coffee on me! ☕</textarea>
+          <div class="char-count" id="charCount">82 / 300</div>
+        </div>
+        <div class="field-label" style="padding:0 20px; margin-bottom:10px">Signature</div>
+        <div class="sig-tabs-row">
+          <button class="sig-tab active" onclick="setSigTab('style',this)">Style</button>
+          <button class="sig-tab" onclick="setSigTab('draw',this)">Draw</button>
+          <button class="sig-tab" onclick="setSigTab('initials',this)">Initials</button>
+        </div>
+        <div class="sig-panel active" id="panelStyle">
+          <div class="sig-font-grid" id="sigFonts"></div>
+        </div>
+        <div class="sig-panel" id="panelDraw">
+          <div class="canvas-wrap">
+            <canvas id="sigCanvas"></canvas>
+            <button class="canvas-clear-btn" onclick="clearSig()">Clear</button>
+          </div>
+        </div>
+        <div class="sig-panel" id="panelInitials">
+          <div class="initials-row">
+            <div class="initial-opt selected" onclick="pickInitial(this)">S</div>
+            <div class="initial-opt circle" onclick="pickInitial(this)">S</div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky-cta">
+        <button class="cta-btn" onclick="goTo(4)">Delivery →</button>
+      </div>
+    </div>
+
+    <!-- ── S4: Delivery ── -->
+    <div class="screen" id="s4">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goTo(3)">←</button>
+        <span class="top-bar-label">Delivery</span>
+      </div>
+      <div class="pb-80">
+        <div class="delivery-opts">
+          <div class="d-opt selected" id="dSMS" onclick="pickDelivery('sms')">
+            <div class="d-opt-head">
+              <span class="d-icon">📱</span>
+              <div><div class="d-title">Text message</div><div class="d-sub">Delivered via SMS</div></div>
+            </div>
+            <div class="d-inp-wrap" id="smsField">
+              <input class="field-input" type="tel" value="(415) 555-0123">
+            </div>
+          </div>
+          <div class="d-opt" id="dEmail" onclick="pickDelivery('email')">
+            <div class="d-opt-head">
+              <span class="d-icon">✉️</span>
+              <div><div class="d-title">Email</div><div class="d-sub">Delivered via email</div></div>
+            </div>
+            <div class="d-inp-wrap" id="emailField" style="display:none">
+              <input class="field-input" type="email" placeholder="Email address">
+            </div>
+          </div>
+          <div class="d-opt" id="dLink" onclick="pickDelivery('link')">
+            <div class="d-opt-head">
+              <span class="d-icon">🔗</span>
+              <div><div class="d-title">Shareable link</div><div class="d-sub">Copy and send yourself</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="when-wrap">
+          <div class="when-lbl">When</div>
+          <div class="when-opts">
+            <div class="when-opt selected" onclick="pickWhen(this)">Send now</div>
+            <div class="when-opt" onclick="pickWhen(this)">Schedule</div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky-cta">
+        <button class="cta-btn" onclick="goTo(5)">Preview →</button>
+      </div>
+    </div>
+
+    <!-- ── S5: Preview ── -->
+    <div class="screen" id="s5">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goTo(4)">←</button>
+        <span class="top-bar-label">Preview</span>
+      </div>
+      <div class="pb-80">
+        <div class="preview-note">This is how Alex will see it</div>
+        <div class="sms-bubble-wrap">
+          <div class="sms-bubble">
+            <div class="sms-from">Pensive Post</div>
+            <div class="sms-body">Sarah sent you a gift 🎁<br><span class="sms-link">pensivepost.com/r/abc123</span></div>
+          </div>
+        </div>
+        <div class="preview-note" style="padding-top:4px">Tap envelope to preview</div>
+        <div class="envelope" id="envWrap" onclick="tapEnvelope()">
+          <div class="env-back"></div>
+          <div class="env-flap"></div>
+          <div class="env-logo">Pensive Post</div>
+          <div class="env-tap" id="envTap">
+            <span class="env-tap-icon">✉️</span>
+            <span>Tap to open</span>
+          </div>
+        </div>
+        <span class="preview-edit" onclick="goTo(3)">← Edit card</span>
+      </div>
+      <div class="sticky-cta">
+        <button class="cta-btn" onclick="goTo(6)">Review &amp; Pay →</button>
+      </div>
+    </div>
+
+    <!-- ── S6: Review ── -->
+    <div class="screen" id="s6">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goTo(5)">←</button>
+        <span class="top-bar-label">Review</span>
+      </div>
+      <div class="pb-80">
+        <div class="review-wrap">
+          <div class="review-row"><span class="rv-lbl">To</span><span class="rv-val">Alex</span></div>
+          <div class="review-row"><span class="rv-lbl">Via</span><span class="rv-val">SMS · (415) 555-0123</span></div>
+          <div class="review-row"><span class="rv-lbl">Sends</span><span class="rv-val">Now</span></div>
+          <div class="review-row"><span class="rv-lbl">Brand</span><span class="rv-val" id="rvBrand">Starbucks</span></div>
+          <div class="review-row"><span class="rv-lbl">Amount</span><span class="rv-val" id="rvAmt">$25.00</span></div>
+          <div class="rv-divider" style="margin-top:8px"></div>
+          <div class="review-row"><span class="rv-lbl">Gift card</span><span class="rv-val" id="rvGift">$25.00</span></div>
+          <div class="review-row"><span class="rv-lbl">Service fee</span><span class="rv-val">$1.50</span></div>
+          <div class="rv-total"><span>Total</span><span id="rvTotal">$26.50</span></div>
+        </div>
+        <div class="payment-card">
+          <div class="pc-left">
+            <span>💳 Visa</span>
+            <span class="pc-dots">····  4242</span>
+          </div>
+          <span class="pc-change">Change</span>
+        </div>
+        <div style="padding:0 20px">
+          <button class="cta-btn" onclick="goTo(7)" id="sendBtn">Send gift $26.50 →</button>
+          <div class="terms-note">By sending you agree to Terms of Service</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── S7: Confirmation ── -->
+    <div class="screen" id="s7">
+      <div class="confirm-screen">
+        <div class="confirm-sent">✦ Sent.</div>
+        <div class="confirm-body">Your gift is on its way<br>to Alex.</div>
+        <div class="confirm-thumb">
+          <div class="confirm-chip">☕ Starbucks</div>
+        </div>
+        <div class="confirm-actions">
+          <div class="confirm-action" onclick="switchFlow('recipient')">
+            <span>View as recipient →</span><span class="ca-arrow">→</span>
+          </div>
+          <div class="confirm-action" onclick="goTo(0)">
+            <span>Send another gift</span><span class="ca-arrow">→</span>
+          </div>
+          <div class="confirm-action">
+            <span>View gift status</span><span class="ca-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── R0: Recipient Landing ── -->
+    <div class="screen" id="r0">
+      <div class="r-landing">
+        <div class="r-badge">☕ Starbucks Gift</div>
+        <div class="r-headline">Sarah sent<br>you a gift</div>
+        <div class="r-sub">A little something just for you</div>
+        <div class="r-env-icon">✉️</div>
+        <div class="r-hint">A gift is waiting inside</div>
+        <button class="r-open-btn" onclick="goToR(1)">Open your gift →</button>
+      </div>
+    </div>
+
+    <!-- ── R1: Card Reveal ── -->
+    <div class="screen" id="r1">
+      <div class="pb-80">
+        <div class="r-card-wrap">
+          <div class="r-full-card">
+            <div class="r-card-occasion">Thank You</div>
+            <div class="r-card-footer">
+              <div class="r-card-msg-snip">"Thanks for all your help on the project…"</div>
+              <div class="r-card-chip">☕ Starbucks</div>
+            </div>
+          </div>
+        </div>
+        <div class="r-message-wrap">
+          <div class="r-from-lbl">From Sarah</div>
+          <div class="r-msg-text">"Thanks for all your help on the project — really appreciated it. Coffee on me! ☕"</div>
+          <div class="r-signature">Sarah</div>
+        </div>
+        <button class="r-reveal-btn" onclick="goToR(2)">Reveal gift →</button>
+      </div>
+    </div>
+
+    <!-- ── R2: Redeemed ── -->
+    <div class="screen" id="r2">
+      <div class="r-redeemed">
+        <div class="r-amount-big">$25</div>
+        <div class="r-brand-lbl">Starbucks Gift Card</div>
+        <div class="r-code-card">
+          <div class="r-code-lbl">Gift Card Code</div>
+          <div class="r-code">6123-4812-9934</div>
+          <button class="r-copy-btn" onclick="this.textContent='Copied ✓'; setTimeout(()=>this.textContent='Copy code',2000)">Copy code</button>
+        </div>
+        <button class="r-redeem-brand-btn">Redeem at Starbucks →</button>
+        <div class="r-thankyou-link" onclick="alert('Opens a thank-you note form')">Send a thank you to Sarah ✉️</div>
+      </div>
+    </div>
+
+  </div><!-- /screen-container -->
+</div><!-- /phone -->
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="prev()">← Prev</button>
+  <button class="nav-btn" id="nextBtn" onclick="next()">Next →</button>
+</div>
+
+<script>
+// ── Data ──────────────────────────────────────────────
+const OCCASIONS = [
+  {slug:'birthday',    label:'Birthday',        emoji:'🎂'},
+  {slug:'graduation',  label:'Graduation',      emoji:'🎓'},
+  {slug:'celebration', label:'Celebration',     emoji:'🥂'},
+  {slug:'thank-you',   label:'Thank You',       emoji:'🙏'},
+  {slug:'thinking',    label:'Thinking of You', emoji:'🌸'},
+  {slug:'just-because',label:'Just Because',    emoji:'✨'},
+];
+
+const REC_BRANDS = [
+  {name:'Starbucks',    emoji:'☕'},
+  {name:'DoorDash',     emoji:'🍕'},
+  {name:'Uber Eats',    emoji:'🛵'},
+  {name:'1-800-Flowers',emoji:'💐'},
+];
+
+const ALL_BRANDS = [
+  {name:'Amazon',    emoji:'📦'}, {name:'Apple',      emoji:'🍎'},
+  {name:'Nordstrom', emoji:'🛍️'}, {name:'Target',     emoji:'🎯'},
+  {name:'Sephora',   emoji:'💄'}, {name:'Whole Foods',emoji:'🥑'},
+  {name:'Netflix',   emoji:'🎬'}, {name:'Nike',       emoji:'👟'},
+];
+
+const AMOUNTS = [15, 25, 50, 100];
+const DESIGNS = ['card-d0','card-d1','card-d2','card-d3'];
+const DESIGN_COLORS = [
+  {txt:'var(--ink)',             bg:'rgba(199,90,63,0.1)'},
+  {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
+  {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
+  {txt:'rgba(255,255,255,0.9)', bg:'transparent'},
+];
+const SIG_FONTS = [
+  {family:"'Caveat', cursive",                    label:'Casual'},
+  {family:"'Dancing Script', cursive",            label:'Elegant'},
+  {family:"'Cormorant Garamond', Georgia, serif", label:'Literary'},
+  {family:'Georgia, serif',                       label:'Classic'},
+];
+
+// ── State ─────────────────────────────────────────────
+let flow = 'sender', sScreen = 0, rScreen = 0;
+let selOccasion = OCCASIONS[3], selBrand = REC_BRANDS[0];
+let selDesign = 1, selAmount = 25, selSigFont = 0;
+
+// ── Build UI ──────────────────────────────────────────
+function buildAll() {
+  buildOccasions();
+  buildBrands();
+  buildDesignDots();
+  buildAmountChips();
+  buildSigFonts();
+  initCanvas();
+  document.getElementById('msgInput').addEventListener('input', updateCharCount);
+}
+
+function buildOccasions() {
+  document.getElementById('occasionGrid').innerHTML = OCCASIONS.map(o => `
+    <div class="occasion-card ${o===selOccasion?'selected':''}" onclick="pickOccasion('${o.slug}')">
+      <div class="occasion-emoji">${o.emoji}</div>
+      <div class="occasion-label">${o.label}</div>
+    </div>`).join('');
+}
+
+function buildBrands() {
+  document.getElementById('recBrands').innerHTML = REC_BRANDS.map((b,i) => `
+    <div class="brand-pill ${b===selBrand?'selected':''}" onclick="pickRecBrand(${i})">
+      <div class="chk">✓</div>
+      <span class="bp-emoji">${b.emoji}</span>
+      <span class="bp-name">${b.name}</span>
+    </div>`).join('');
+
+  document.getElementById('allBrands').innerHTML = ALL_BRANDS.map(b => `
+    <div class="brand-row-tile" onclick="pickAllBrand(this,'${b.name}','${b.emoji}')">
+      <div class="chk">✓</div>
+      <span class="brt-emoji">${b.emoji}</span>
+      <span class="brt-name">${b.name}</span>
+    </div>`).join('');
+}
+
+function buildDesignDots() {
+  document.getElementById('cardDots').innerHTML = DESIGNS.map((_,i) => `
+    <div class="card-dot ${i===selDesign?'active':''}" onclick="pickDesign(${i})"></div>`).join('');
+  applyDesign();
+}
+
+function buildAmountChips() {
+  document.getElementById('amountChips').innerHTML = AMOUNTS.map(a => `
+    <div class="chip ${a===selAmount?'selected':''}" onclick="pickAmount(${a},this)">$${a}</div>`).join('')
+    + `<div class="chip" onclick="pickCustom(this)">Custom</div>`;
+}
+
+function buildSigFonts() {
+  document.getElementById('sigFonts').innerHTML = SIG_FONTS.map((f,i) => `
+    <div class="sig-font-opt ${i===selSigFont?'selected':''}" onclick="pickSigFont(${i},this)">
+      <span class="sf-name" style="font-family:${f.family}">Sarah</span>
+      <span class="sf-label">${f.label}</span>
+    </div>`).join('');
+}
+
+function updateCharCount() {
+  const n = document.getElementById('msgInput').value.length;
+  document.getElementById('charCount').textContent = `${n} / 300`;
+  document.getElementById('charCount').style.color = n > 270 ? 'var(--terra)' : 'var(--muted)';
+}
+
+// ── Interactions ──────────────────────────────────────
+function pickOccasion(slug) {
+  selOccasion = OCCASIONS.find(o => o.slug === slug);
+  buildOccasions();
+  document.getElementById('s1Title').textContent = selOccasion.label;
+  document.getElementById('recLabel').textContent = `Recommended for ${selOccasion.label}`;
+  document.getElementById('cpOccasion').textContent = selOccasion.label;
+  goTo(1);
+}
+
+function pickRecBrand(i) {
+  selBrand = REC_BRANDS[i];
+  refreshBrandSelections();
+}
+function pickAllBrand(el, name, emoji) {
+  selBrand = {name, emoji};
+  refreshBrandSelections();
+}
+function refreshBrandSelections() {
+  document.querySelectorAll('.brand-pill').forEach((el,i) =>
+    el.classList.toggle('selected', REC_BRANDS[i] === selBrand));
+  document.querySelectorAll('.brand-row-tile').forEach((el,i) =>
+    el.classList.toggle('selected', ALL_BRANDS[i] && ALL_BRANDS[i].name === selBrand.name));
+  document.getElementById('s2Title').textContent = selBrand.name;
+  document.getElementById('cpBrand').textContent = `${selBrand.emoji} ${selBrand.name}`;
+  document.getElementById('rvBrand').textContent = selBrand.name;
+}
+
+function pickDesign(i) {
+  selDesign = i;
+  document.querySelectorAll('.card-dot').forEach((d,j) => d.classList.toggle('active', j===i));
+  applyDesign();
+}
+function applyDesign() {
+  const card = document.getElementById('cardPreview');
+  card.className = 'card-preview ' + DESIGNS[selDesign];
+  const txt = document.getElementById('cpOccasion');
+  if (txt) txt.style.color = DESIGN_COLORS[selDesign].txt;
+}
+
+function pickAmount(a, el) {
+  selAmount = a;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const t = (a + 1.5).toFixed(2);
+  document.getElementById('rvAmt').textContent = `$${a}.00`;
+  document.getElementById('rvGift').textContent = `$${a}.00`;
+  document.getElementById('rvTotal').textContent = `$${t}`;
+  document.getElementById('sendBtn').textContent = `Send gift $${t} →`;
+}
+function pickCustom(el) {
+  const v = prompt('Enter amount ($5–$500):');
+  if (v && !isNaN(v) && +v >= 5 && +v <= 500) pickAmount(+v, el);
+}
+
+function setSigTab(mode, btn) {
+  document.querySelectorAll('.sig-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.sig-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
+  if (mode === 'draw') initCanvas();
+}
+function pickSigFont(i, el) {
+  selSigFont = i;
+  document.querySelectorAll('.sig-font-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function pickInitial(el) {
+  document.querySelectorAll('.initial-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function pickDelivery(method) {
+  ['sms','email','link'].forEach(m => document.getElementById('d'+m.charAt(0).toUpperCase()+m.slice(1)).classList.remove('selected'));
+  document.getElementById('d'+method.charAt(0).toUpperCase()+method.slice(1)).classList.add('selected');
+  document.getElementById('smsField').style.display = method==='sms' ? 'block' : 'none';
+  document.getElementById('emailField').style.display = method==='email' ? 'block' : 'none';
+}
+function pickWhen(el) {
+  document.querySelectorAll('.when-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+let envOpen = false;
+function tapEnvelope() {
+  if (envOpen) return;
+  envOpen = true;
+  document.getElementById('envWrap').classList.add('opened');
+  setTimeout(() => {
+    document.getElementById('envWrap').classList.remove('opened');
+    envOpen = false;
+  }, 2400);
+}
+
+// ── Canvas ────────────────────────────────────────────
+let ctx, drawing = false, lx = 0, ly = 0, canvasInited = false;
+
+function initCanvas() {
+  if (canvasInited) return;
+  const c = document.getElementById('sigCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.parentElement.clientWidth || 295;
+  c.width = w * dpr; c.height = 90 * dpr;
+  c.style.width = w + 'px'; c.style.height = '90px';
+  ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = '#1A1A1A'; ctx.lineWidth = 2;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  c.addEventListener('pointerdown', e => { drawing=true; [lx,ly]=pos(c,e); });
+  c.addEventListener('pointermove', e => {
+    if (!drawing) return;
+    const [x,y] = pos(c,e);
+    ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(x,y); ctx.stroke();
+    [lx,ly]=[x,y];
+  });
+  c.addEventListener('pointerup', ()=>drawing=false);
+  c.addEventListener('pointerleave', ()=>drawing=false);
+  canvasInited = true;
+}
+function pos(c,e) {
+  const r = c.getBoundingClientRect();
+  return [e.clientX-r.left, e.clientY-r.top];
+}
+function clearSig() { if(ctx) ctx.clearRect(0,0,9999,9999); }
+
+// ── Navigation ────────────────────────────────────────
+const SENDER = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+const SENDER_NAMES = ['Home','Brands','Amount','Personalise','Delivery','Preview','Review','Sent ✓'];
+const RECIPIENT = ['r0','r1','r2'];
+const RECIPIENT_NAMES = ['Envelope','Card','Redeemed'];
+
+function goTo(i) {
+  const from = SENDER[sScreen], to = SENDER[i];
+  document.getElementById(from).classList.remove('active');
+  document.getElementById(to).classList.add('active');
+  sScreen = i;
+  refresh();
+}
+
+function goToR(i) {
+  const from = RECIPIENT[rScreen], to = RECIPIENT[i];
+  document.getElementById(from).classList.remove('active');
+  document.getElementById(to).classList.add('active');
+  rScreen = i;
+  refresh();
+}
+
+function switchFlow(f) {
+  if (flow === f) return;
+  const from = flow==='sender' ? SENDER[sScreen] : RECIPIENT[rScreen];
+  flow = f;
+  const to = flow==='sender' ? SENDER[sScreen] : RECIPIENT[rScreen];
+  document.getElementById(from).classList.remove('active');
+  document.getElementById(to).classList.add('active');
+  document.getElementById('btnSender').classList.toggle('active', f==='sender');
+  document.getElementById('btnRecipient').classList.toggle('active', f==='recipient');
+  refresh();
+}
+
+function prev() {
+  if (flow==='sender' && sScreen > 0) goTo(sScreen-1);
+  else if (flow==='recipient' && rScreen > 0) goToR(rScreen-1);
+}
+function next() {
+  if (flow==='sender' && sScreen < SENDER.length-1) goTo(sScreen+1);
+  else if (flow==='recipient' && rScreen < RECIPIENT.length-1) goToR(rScreen+1);
+}
+
+function refresh() {
+  const isSender = flow === 'sender';
+  const idx = isSender ? sScreen : rScreen;
+  const names = isSender ? SENDER_NAMES : RECIPIENT_NAMES;
+  const total = isSender ? SENDER.length : RECIPIENT.length;
+  document.getElementById('screenInfo').textContent = `${names[idx]} · ${idx+1} of ${total}`;
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === total-1;
+  // Status bar colour for recipient landing
+  const sb = document.getElementById('statusBar');
+  const dark = !isSender && idx === 0;
+  sb.style.background = dark ? '#1A2638' : 'var(--paper)';
+  sb.style.color = dark ? 'white' : 'var(--ink)';
+}
+
+buildAll();
+</script>
+</body>
+</html>
