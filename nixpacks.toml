@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["cd output/olive/backend && npm ci"]
+
+[phases.build]
+cmds = ["cd output/olive/backend && npm run build"]
+
+[start]
+cmd = "cd output/olive/backend && node dist/index.js"
