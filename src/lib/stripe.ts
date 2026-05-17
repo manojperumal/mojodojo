@@ -1,31 +1,34 @@
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY environment variable is required');
-}
+const STRIPE_MOCK = !process.env.STRIPE_SECRET_KEY;
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-  typescript: true,
-});
+export const stripe = STRIPE_MOCK
+  ? null
+  : new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+      apiVersion: '2023-10-16',
+      typescript: true,
+    });
 
 export async function createPaymentIntent(
   amountCents: number,
   currency: string = 'usd',
   customerId?: string,
 ): Promise<{ clientSecret: string; paymentIntentId: string }> {
+  if (STRIPE_MOCK || !stripe) {
+    return {
+      clientSecret: `mock_secret_${Date.now()}`,
+      paymentIntentId: `mock_pi_${Date.now()}`,
+    };
+  }
+
   const params: Stripe.PaymentIntentCreateParams = {
     amount: amountCents,
     currency,
     automatic_payment_methods: { enabled: true },
-    metadata: {
-      app: 'olive',
-    },
+    metadata: { app: 'olive' },
   };
 
-  if (customerId) {
-    params.customer = customerId;
-  }
+  if (customerId) params.customer = customerId;
 
   const paymentIntent = await stripe.paymentIntents.create(params);
 
