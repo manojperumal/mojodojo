@@ -288,21 +288,23 @@ router.post('/:id/pay', requireAuth, async (req: Request, res: Response): Promis
     return;
   }
 
-  // Verify payment intent succeeded with Stripe
-  let pi: import('stripe').Stripe.PaymentIntent;
-  try {
-    pi = await stripe.paymentIntents.retrieve(paymentIntentId);
-  } catch (err) {
-    console.error('Failed to retrieve payment intent:', err);
-    res.status(400).json({ error: 'Invalid payment intent ID' });
-    return;
-  }
+  // Verify payment intent succeeded with Stripe (skip in mock mode)
+  if (stripe && !paymentIntentId.startsWith('mock_')) {
+    let pi: import('stripe').Stripe.PaymentIntent;
+    try {
+      pi = await stripe.paymentIntents.retrieve(paymentIntentId);
+    } catch (err) {
+      console.error('Failed to retrieve payment intent:', err);
+      res.status(400).json({ error: 'Invalid payment intent ID' });
+      return;
+    }
 
-  if (pi.status !== 'succeeded') {
-    res.status(402).json({
-      error: `Payment not completed. Payment intent status: ${pi.status}`,
-    });
-    return;
+    if (pi.status !== 'succeeded') {
+      res.status(402).json({
+        error: `Payment not completed. Payment intent status: ${pi.status}`,
+      });
+      return;
+    }
   }
 
   // Determine if scheduled for the future

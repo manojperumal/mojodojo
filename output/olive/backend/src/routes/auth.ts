@@ -42,8 +42,10 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
   // Create Stripe customer
   let stripeCustomerId: string | undefined;
   try {
-    const customer = await stripe.customers.create({ email, name });
-    stripeCustomerId = customer.id;
+    if (stripe) {
+      const customer = await stripe.customers.create({ email, name });
+      stripeCustomerId = customer.id;
+    }
   } catch (err) {
     console.error('Failed to create Stripe customer:', err);
     // Non-fatal — continue without Stripe customer
