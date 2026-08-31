@@ -52,32 +52,38 @@ want to depend on uploading a large file over conference wifi.
 
 ## Deploy to Railway
 
-This mirrors how Pre-qual's own server is hosted: same platform, same
-"secrets live only in the dashboard, nothing committed" convention, same
-subfolder-as-a-service model (Pre-qual deploys `server/` as one service out
-of a monorepo — this deploys `ptp-video-mvp/` the same way out of `mojodojo`).
+This *borrows the hosting pattern* Pre-qual's own server uses (Railway,
+subfolder-as-a-service, secrets only in the dashboard) — it does not share
+any infrastructure with Pre-qual. This MVP already lives in a separate
+GitHub repo (`mojodojo`, not `Pre-qual`) with its own dependencies and no
+imports of Pre-qual code. Keep the deploy just as walled off:
 
-1. In the Railway dashboard, create a new service from this GitHub repo
-   (either a new project, or an additional service in an existing one).
-2. Set the service's **Root Directory** to `ptp-video-mvp`. Railway's
-   Nixpacks builder then auto-detects Python from `requirements.txt` and
-   `.python-version`, and uses this repo's `Procfile` as the start command
-   — no Dockerfile or `railway.json` needed, same as the Node server needs
-   no extra config beyond its `package.json` scripts.
-3. Add environment variables in the Railway dashboard (Settings → Variables)
-   — do not commit a `.env` file:
+1. In the Railway dashboard, create a **brand-new Railway project** for
+   this — do not add it as a service inside Pre-qual's existing project.
+   Separate project means separate billing, separate env vars, separate
+   failure blast radius: a bad deploy or a leaked demo API key here can't
+   touch Pre-qual's production service, and vice versa.
+2. Point that project's service at this GitHub repo, with **Root
+   Directory** set to `ptp-video-mvp`. Railway's Nixpacks builder then
+   auto-detects Python from `requirements.txt` and `.python-version`, and
+   uses this repo's `Procfile` as the start command — no Dockerfile or
+   `railway.json` needed.
+3. Add environment variables in that project's own dashboard (Settings →
+   Variables) — do not commit a `.env` file, and do not reuse any
+   Pre-qual credential (Supabase keys, SMTP, QuickBooks) here; this MVP
+   doesn't need any of them:
    - `GEMINI_API_KEY` (required)
    - `GEMINI_FLASH_MODEL` / `GEMINI_PRO_MODEL` (optional overrides)
-4. Deploy. Railway assigns a free `*.up.railway.app` domain automatically —
-   same as Pre-qual's server (`pre-qual-production.up.railway.app`).
+4. Deploy. Railway assigns its own free `*.up.railway.app` domain,
+   independent of Pre-qual's.
 
-**Caveat vs. Pre-qual:** Pre-qual persists to Supabase, so its data survives
-restarts. This MVP still writes `outputs/` to local disk only (explicitly
-out of scope to change — see below), and Railway's filesystem is ephemeral:
-a redeploy or restart wipes prior run outputs. Fine for a demo tool where
-each session downloads its own report; not fine if you need results to
-persist across deploys. `sample_videos/` ships with the deploy since it's
-committed to git, so the "Run on sample video" path is unaffected.
+**Ephemeral storage is a non-issue in practice:** `outputs/` is local-disk
+only (intentionally out of scope to change — see below), and Railway's
+filesystem resets on redeploy/restart. But normal usage never depends on
+that surviving a restart — a viewer analyzes a video and downloads the
+report within one live Streamlit session. `sample_videos/` ships with the
+deploy since it's committed to git, so "Run on sample video" is unaffected
+either way.
 
 ## Known risk
 
