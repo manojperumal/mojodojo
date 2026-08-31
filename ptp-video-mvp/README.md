@@ -50,6 +50,35 @@ want to depend on uploading a large file over conference wifi.
   in `.env` are overridable if the defaults get deprecated. Check
   https://ai.google.dev/gemini-api/docs/models before a demo.
 
+## Deploy to Railway
+
+This mirrors how Pre-qual's own server is hosted: same platform, same
+"secrets live only in the dashboard, nothing committed" convention, same
+subfolder-as-a-service model (Pre-qual deploys `server/` as one service out
+of a monorepo — this deploys `ptp-video-mvp/` the same way out of `mojodojo`).
+
+1. In the Railway dashboard, create a new service from this GitHub repo
+   (either a new project, or an additional service in an existing one).
+2. Set the service's **Root Directory** to `ptp-video-mvp`. Railway's
+   Nixpacks builder then auto-detects Python from `requirements.txt` and
+   `.python-version`, and uses this repo's `Procfile` as the start command
+   — no Dockerfile or `railway.json` needed, same as the Node server needs
+   no extra config beyond its `package.json` scripts.
+3. Add environment variables in the Railway dashboard (Settings → Variables)
+   — do not commit a `.env` file:
+   - `GEMINI_API_KEY` (required)
+   - `GEMINI_FLASH_MODEL` / `GEMINI_PRO_MODEL` (optional overrides)
+4. Deploy. Railway assigns a free `*.up.railway.app` domain automatically —
+   same as Pre-qual's server (`pre-qual-production.up.railway.app`).
+
+**Caveat vs. Pre-qual:** Pre-qual persists to Supabase, so its data survives
+restarts. This MVP still writes `outputs/` to local disk only (explicitly
+out of scope to change — see below), and Railway's filesystem is ephemeral:
+a redeploy or restart wipes prior run outputs. Fine for a demo tool where
+each session downloads its own report; not fine if you need results to
+persist across deploys. `sample_videos/` ships with the deploy since it's
+committed to git, so the "Run on sample video" path is unaffected.
+
 ## Known risk
 
 Gemini's speaker diarization on multi-person outdoor construction audio
