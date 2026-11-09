@@ -28,3 +28,15 @@ Decisions are referenced against PRD v0.1 IDs (FR-, NFR-, OQ-).
 ## Still open (from PRD)
 
 OQ-1 buyer/pricing · OQ-2 pilot · OQ-4 offline · OQ-5 name/brand · OQ-6 success targets. None of these block the V1 build.
+
+## Build decisions (2026-11-09, V1 build)
+
+| # | Decision | Why |
+|---|---|---|
+| B-1 | The API (Express) is the only thing that touches the database; the client never queries Supabase directly. Supabase provides Postgres and email sign-in. | Keeps the readiness engine, escalations and role rules in one place, and they're tested against real Postgres. |
+| B-2 | Constraints raised by a foreman through a link arrive as **Raised**, with no owner and needed-by defaulting to the day before the task. They show as AT RISK and in the super's triage list until owned. | Reconciles FR-04 (no orphans) with FR-10 (two-tap flagging). Only this path can create an unowned constraint, and the database enforces it. |
+| B-3 | Every new activity gets one crew task automatically (manual, CSV, P6 or template). The super can split it. | Makes any activity committable without forcing a breakdown first (D-3). |
+| B-4 | Only READY tasks (including activities overridden to READY) can be pulled into the Weekly Work Plan. | FR-08. Commitments pulled in on an override are marked as such. |
+| B-5 | An activity is AT RISK when a predecessor isn't finished and is planned to finish on or after this activity's start. | The PRD lists Predecessor Work as a constraint category; this catches sequence slips automatically and says why. |
+| B-6 | PM / field engineer can update equipment delivery dates (procurement); only the super edits everything else. | They own procurement constraints (§3). |
+| B-7 | Clearing a constraint requires a short note; marking one missed requires a variance reason. | §8: "Cleared (evidence or confirmation attached)". Document upload is a later addition. |

@@ -4,7 +4,7 @@ import { authMode, requireAuth } from './auth';
 import { pool, q } from './db';
 import { errorHandler } from './errors';
 import { constraints } from './routes/constraints';
-import { imports } from './routes/imports';
+import { imports, importsPublic } from './routes/imports';
 import { plan } from './routes/plan';
 import { projects } from './routes/projects';
 import { foremanPublic, weekly } from './routes/weekly';
@@ -35,7 +35,7 @@ export function createApp() {
   }
 
   // Foreman confirm links: no account (FR-08). The token is the credential.
-  app.use('/api', foremanPublic);
+  app.use('/api', foremanPublic, importsPublic);
 
   app.use('/api', requireAuth, projects, plan, constraints, weekly, imports);
   app.use(errorHandler);

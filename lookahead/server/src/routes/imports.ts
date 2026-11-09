@@ -12,6 +12,8 @@ import { parseP6 } from '../import/p6';
 import type { ImportPlan } from '../import/normalize';
 
 export const imports = Router();
+/** No auth: static CSV templates, so a plain download link works. */
+export const importsPublic = Router();
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -25,7 +27,7 @@ function preview(plan: ImportPlan) {
   };
 }
 
-imports.get('/csv-templates/:kind', (req, res) => {
+importsPublic.get('/csv-templates/:kind', (req, res) => {
   const t = CSV_TEMPLATES[req.params.kind as keyof typeof CSV_TEMPLATES];
   if (!t) return res.status(404).end();
   res.type('text/csv').attachment(`lookahead-${req.params.kind}-template.csv`).send(t);

@@ -179,7 +179,7 @@ foremanPublic.get(
     const committedTaskIds = new Set(commitments.map((c) => c.taskId));
     const windowEnd = addDays(l.weekStart, 20);
     // Upcoming tasks for this trade (next 3 weeks) so the foreman can flag problems early (FR-10).
-    const upcoming = b.tasks.filter((t) => t.tradeId === l.tradeId && !committedTaskIds.has(t.id) && t.plannedStart <= windowEnd && t.plannedFinish >= l.weekStart);
+    const upcoming = b.tasks.filter((t) => t.tradeId === l.tradeId && !committedTaskIds.has(t.id) && t.plannedStart <= windowEnd && t.plannedFinish >= b.today && !actById.get(t.activityId)?.actualFinish);
     const view = (t: (typeof b.tasks)[number]) => {
       const a = actById.get(t.activityId);
       const r = b.taskReadiness[t.id];
@@ -249,6 +249,19 @@ foremanPublic.post(
       return row;
     });
     res.status(201).json({ id: row.id, number: row.number });
+  }),
+);
+
+/** Optional detail after the two-tap flag. Only for constraints raised against this link's trade. */
+foremanPublic.post(
+  '/f/:token/constraints/:cid/note',
+  h(async (req, res) => {
+    const l = await resolveLink(req.params.token);
+    const body = z.object({ note: z.string().trim().min(1).max(1000), name: z.string().trim().max(80).optional() }).parse(req.body);
+    const c = await one(pool, `select c.id, c.project_id, c.raised_by_name, t.trade_id from constraints c join tasks t on t.id = c.task_id where c.id = $1`, [req.params.cid]);
+    if (!c || c.projectId !== l.projectId || c.tradeId !== l.tradeId) throw new HttpError(404, 'Not found.');
+    await pool.query('insert into constraint_comments (constraint_id, author_name, body) values ($1, $2, $3)', [c.id, `${body.name || c.raisedByName || 'Foreman'} (foreman link)`, body.note]);
+    res.status(201).json({ ok: true });
   }),
 );
 
