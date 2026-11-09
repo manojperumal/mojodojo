@@ -1,0 +1,38 @@
+ERMHDR	19.12	2026-11-01	Project	admin	admin	dbxDatabaseNoName	Project Management	USD
+%T	PROJECT
+%F	proj_id	proj_short_name
+%R	1	DC2
+%T	PROJWBS
+%F	wbs_id	proj_id	parent_wbs_id	wbs_short_name	wbs_name
+%R	10	1		DH2	Data Hall 2
+%R	11	1		ERB	Electrical Room B
+%T	ACTVTYPE
+%F	actv_code_type_id	actv_code_type
+%R	100	Responsible Trade
+%R	101	System
+%R	102	Cx Level
+%T	ACTVCODE
+%F	actv_code_id	actv_code_type_id	short_name	actv_code_name
+%R	1000	100	ELEC	Electrical
+%R	1001	100	MECH	Mechanical
+%R	1010	101	UPSB	UPS Plant B
+%R	1020	102	L2	Level 2
+%T	TASK
+%F	task_id	proj_id	wbs_id	task_code	task_type	task_name	target_start_date	target_end_date	act_start_date	act_end_date
+%R	500	1	11	EL-1000	TT_Task	Set UPS modules	2026-11-16 07:00	2026-11-20 17:00		
+%R	501	1	11	EL-1010	TT_Task	Pre-functional checklists UPS B	2026-11-23 07:00	2026-11-25 17:00		
+%R	502	1	10	ME-2000	TT_Task	CRAH start-up	2026-11-30 07:00	2026-12-02 17:00		
+%R	503	1	10	ME-1000	TT_Task	Old completed work	2026-08-01 07:00	2026-08-05 17:00	2026-08-01 07:00	2026-08-05 17:00
+%R	504	1	11	MS-1	TT_FinMile	Energize UPS Plant B	2026-12-01 17:00	2026-12-01 17:00		
+%T	TASKACTV
+%F	task_id	actv_code_type_id	actv_code_id	proj_id
+%R	500	100	1000	1
+%R	500	101	1010	1
+%R	500	102	1020	1
+%R	501	100	1000	1
+%R	502	100	1001	1
+%T	TASKPRED
+%F	task_pred_id	task_id	pred_task_id	proj_id	pred_proj_id	pred_type
+%R	1	501	500	1	1	PR_FS
+%R	2	502	503	1	1	PR_FS
+%E
