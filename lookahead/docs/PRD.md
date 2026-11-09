@@ -9,7 +9,7 @@ Quick reference:
 - **Horizons:** one rolling plan seen through 3-week (make-ready), 4-week (saved filter) and 6-week (lookahead) windows, plus the 1-week Weekly Work Plan.
 - **Core objects:** Activity, Constraint, Area/System, Equipment, Milestone, Commitment.
 - **Readiness:** READY / CONSTRAINED / AT RISK, computed from linked constraints. Overrides are logged.
-- **V1 data in:** manual entry and CSV import only. P6, Procore and BIM sync are Phase 2.
+- **V1 data in:** manual entry, CSV import and P6 file import (decision D-1). Procore and BIM sync are Phase 2.
 - **Metrics:** PPC, delay reduction, constraint clearance, RFI cycle time.
 
 Decisions and open questions (OQ-1 to OQ-6) are tracked in `decisions.md`.
