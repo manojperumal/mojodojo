@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { font-feature-settings: 'tnum' 1; }
+
+/* FR-12 print for the wall: 11x17 landscape, large type, no colour dependence. */
+@media print {
+  @page { size: 17in 11in; margin: 0.4in; }
+  body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+}
