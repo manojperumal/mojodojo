@@ -3,9 +3,17 @@ import pg from 'pg';
 // Return DATE columns as 'YYYY-MM-DD' strings, not JS Dates (avoids time-zone drift).
 pg.types.setTypeParser(1082, (v) => v);
 
+// Hosted Postgres (Supabase) needs TLS. Set DATABASE_SSL=true; add DATABASE_CA_CERT (PEM) to also verify the server certificate.
+function sslConfig(): pg.PoolConfig['ssl'] {
+  if (process.env.DATABASE_SSL !== 'true') return undefined;
+  const ca = process.env.DATABASE_CA_CERT?.replace(/\\n/g, '\n');
+  return ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: false };
+}
+
 export const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL ?? 'postgres://postgres:postgres@localhost:5432/lookahead',
-  max: 10,
+  ssl: sslConfig(),
+  max: Number(process.env.DATABASE_POOL_MAX ?? 10),
 });
 
 export type Db = pg.Pool | pg.PoolClient;

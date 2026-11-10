@@ -1,0 +1,48 @@
+# Render Blueprint for the Lookahead API (see lookahead/docs/DEPLOY.md).
+# Render → New → Blueprint → pick this repo. Values marked sync: false are entered in the dashboard.
+services:
+  - type: web
+    name: lookahead-api
+    runtime: node
+    plan: starter            # always-on: the hourly escalation scheduler runs in-process (free instances sleep)
+    region: virginia         # pick the region closest to your Supabase project
+    rootDir: lookahead
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: false        # deploy deliberately during the pilot
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: AUTH_MODE
+        value: supabase
+      - key: DATABASE_SSL
+        value: "true"
+      - key: ESCALATIONS_ENABLED
+        value: "true"
+      - key: ESCALATION_HOUR
+        value: "6"
+      - key: CRON_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: PROJECT_CREATOR_EMAILS
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false

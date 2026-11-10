@@ -12,6 +12,8 @@ import { migrate } from './migrate';
 const TZ = 'America/Chicago';
 
 export async function seed({ quiet = false } = {}) {
+  if (process.env.NODE_ENV === 'production' && !process.argv.includes('--yes-wipe-production'))
+    throw new Error('Refusing to seed: this wipes ALL data. Pass --yes-wipe-production if you really mean it.');
   await migrate(false);
   const today = todayIn(TZ);
   const T = weekStart(today);

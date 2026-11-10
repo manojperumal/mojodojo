@@ -2,13 +2,22 @@
   "name": "lookahead",
   "private": true,
   "version": "0.1.0",
-  "workspaces": ["shared", "server", "client"],
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
   "scripts": {
     "dev": "npm run dev -w server & npm run dev -w client",
     "db:migrate": "npm run migrate -w server",
     "db:seed": "npm run seed -w server",
     "test": "npm test -w shared && npm test -w server",
     "typecheck": "npm run typecheck -w shared && npm run typecheck -w server && npm run typecheck -w client",
-    "build": "npm run build -w client"
+    "build": "npm run build -w client",
+    "start": "npm start -w server",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

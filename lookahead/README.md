@@ -59,14 +59,9 @@ createdb lookahead_test
 npm test
 ```
 
-## Deploying on Supabase
+## Deploying
 
-1. Create a Supabase project. Set `DATABASE_URL` on the server to its connection string; the server runs migrations on start.
-2. Server env: `AUTH_MODE=supabase`, `SUPABASE_URL`, and optionally `SUPABASE_JWT_SECRET`. Set `APP_URL` and the SMTP settings for email.
-3. Client env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and `VITE_API_URL` if the API is on another origin.
-4. People sign in with an email link. Their first sign-in links them by email to the membership the super created under Setup.
-
-The API is the only thing that talks to the database and enforces the role rules (`server/src/access.ts`), so Supabase row-level security isn't needed for V1.
+Supabase (database and sign-in) + Render (API) + Vercel (web app). Step-by-step checklist, environment variables and smoke test: **[docs/DEPLOY.md](docs/DEPLOY.md)**.
 
 ## Not in V1 (per PRD §11–12)
 

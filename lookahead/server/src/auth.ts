@@ -24,11 +24,12 @@ let jwks: ReturnType<typeof createRemoteJWKSet> | null = null;
 
 async function verifySupabaseToken(token: string): Promise<JWTPayload> {
   const secret = process.env.SUPABASE_JWT_SECRET;
-  if (secret) return (await jwtVerify(token, new TextEncoder().encode(secret))).payload;
   const base = process.env.SUPABASE_URL;
+  const opts = base ? { issuer: new URL('/auth/v1', base).toString() } : {};
+  if (secret) return (await jwtVerify(token, new TextEncoder().encode(secret), opts)).payload;
   if (!base) throw new HttpError(500, 'Server auth is not configured (SUPABASE_URL or SUPABASE_JWT_SECRET).');
   jwks ??= createRemoteJWKSet(new URL('/auth/v1/.well-known/jwks.json', base));
-  return (await jwtVerify(token, jwks)).payload;
+  return (await jwtVerify(token, jwks, opts)).payload;
 }
 
 /** Map a Supabase auth identity to a Lookahead user, linking by email on first sign-in. */

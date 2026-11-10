@@ -21,8 +21,9 @@ import { authorize, projectOf } from '../access';
 import { audit, diff } from '../audit';
 import { loadBundle, loadProject } from '../bundle';
 import { one, pool, q, setClause, tx } from '../db';
-import { bad, h, notFound } from '../errors';
+import { bad, forbidden, h } from '../errors';
 import { runEscalations } from '../jobs/escalate';
+import { list } from '../config';
 
 export const projects = Router();
 
@@ -45,6 +46,9 @@ projects.get(
 projects.post(
   '/projects',
   h(async (req, res) => {
+    const creators = list(process.env.PROJECT_CREATOR_EMAILS).map((e) => e.toLowerCase());
+    if (creators.length && !creators.includes(req.user!.email.toLowerCase()))
+      throw forbidden('Ask your superintendent to add you to a project. Only approved people can create projects during the pilot.');
     const body = z
       .object({ name: z.string().min(1), code: z.string().optional(), timezone: z.string().default('America/Chicago'), workDays: z.number().int().min(5).max(7).default(5) })
       .parse(req.body);

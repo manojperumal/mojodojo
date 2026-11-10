@@ -1,6 +1,9 @@
 import cors from 'cors';
 import express from 'express';
+import { timingSafeEqual } from 'node:crypto';
 import { authMode, requireAuth } from './auth';
+import { corsOrigins } from './config';
+import { runEscalations } from './jobs/escalate';
 import { pool, q } from './db';
 import { errorHandler } from './errors';
 import { constraints } from './routes/constraints';
@@ -11,10 +14,31 @@ import { foremanPublic, weekly } from './routes/weekly';
 
 export function createApp() {
   const app = express();
-  app.use(cors());
+  app.disable('x-powered-by');
+  app.set('trust proxy', 1);
+  app.use(cors({ origin: corsOrigins() }));
   app.use(express.json({ limit: '30mb' })); // P6 exports can be large
 
-  app.get('/api/health', (_req, res) => res.json({ ok: true }));
+  app.get('/api/health', async (_req, res) => {
+    try {
+      await pool.query('select 1');
+      res.json({ ok: true });
+    } catch {
+      res.status(503).json({ ok: false, error: 'database unreachable' });
+    }
+  });
+
+  // Backup trigger for escalations (e.g. an external cron), in case the in-process scheduler is asleep.
+  app.post('/api/cron/escalations', async (req, res, next) => {
+    const secret = process.env.CRON_SECRET;
+    const given = req.header('x-cron-secret') ?? '';
+    if (!secret || given.length !== secret.length || !timingSafeEqual(Buffer.from(given), Buffer.from(secret))) return res.status(401).json({ error: 'Unauthorized' });
+    try {
+      res.json(await runEscalations({ respectHour: true }));
+    } catch (e) {
+      next(e);
+    }
+  });
   app.get('/api/config', (_req, res) => res.json({ authMode: authMode() }));
 
   // Local development only: pick a seeded user instead of signing in.
